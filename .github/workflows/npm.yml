@@ -62,12 +62,8 @@ jobs:
       - name: Publish (latest)
         if: contains(github.ref_name, '-') == false
         run: npm publish --access=public --tag=latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Publish (next)
         if: contains(github.ref_name, '-') == true
         run: npm publish --access=public --tag=next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 

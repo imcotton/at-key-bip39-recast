@@ -44,6 +44,8 @@ function gen (args: Iterable<string>) {
 
             args: Array.from(args),
 
+            allowPositionals: true,
+
             options: {
 
                 bin: {    type: 'string' },

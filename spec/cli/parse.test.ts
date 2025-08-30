@@ -49,6 +49,20 @@ describe('parse [gen]', function () {
 
     }
 
+    it('ignores extra positionals', function () {
+
+        const type = 'normal';
+        const buf = u.webcrypto.getRandomValues(new Uint8Array(42));
+        const hex = u.encode_hex(buf);
+
+        const res = parse([ cmd, '--size=12', '--hex', hex, '-', 'wat' ]);
+
+        const entropy = buf.subarray(0, 16);
+
+        ast.assertEquals(res, { cmd, info: { type, entropy } });
+
+    });
+
     it('errors while no --size nor entropy', function () {
 
         const res = parse([ cmd ]);

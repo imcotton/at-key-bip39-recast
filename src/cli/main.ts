@@ -24,7 +24,7 @@ export async function main ({ cmd, info }: Result) {
         }
 
         if (type === 'error') {
-            return err.message.concat('\n\n', help.gen);
+            return { err, note: help.gen };
         }
 
         return to_mnemonic(entropy).then(join_by(' '));
@@ -40,7 +40,7 @@ export async function main ({ cmd, info }: Result) {
         }
 
         if (type === 'error') {
-            return err.message.concat('\n\n', help.extract);
+            return { err, note: help.extract };
         }
 
         const entropy = await from_mnemonic(sentence);

@@ -165,8 +165,14 @@ describe('cli / gen', function () {
 
             const res = await main(parse([ cmd, '--wat' ]));
 
-            ast.assert(typeof res === 'string');
-            ast.assertStringIncludes(res, `Unknown option '--wat'`);
+            ast.assert(typeof res !== 'string'
+                && (res instanceof Uint8Array) === false
+            );
+
+            const { err: { message }, note } = res;
+
+            ast.assertStringIncludes(message, `Unknown option '--wat'`);
+            ast.assertEquals(note, help.gen);
 
         });
 
@@ -233,8 +239,14 @@ describe('cli / extract', function () {
 
             const res = await main(parse([ cmd, '--wat' ]));
 
-            ast.assert(typeof res === 'string');
-            ast.assertStringIncludes(res, `Unknown option '--wat'`);
+            ast.assert(typeof res !== 'string'
+                && (res instanceof Uint8Array) === false
+            );
+
+            const { err: { message }, note } = res;
+
+            ast.assertStringIncludes(message, `Unknown option '--wat'`);
+            ast.assertEquals(note, help.extract);
 
         });
 

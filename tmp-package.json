@@ -1,0 +1,30 @@
+{
+  "name": "bip39-recast",
+  "version": "0.0.0-VERSION",
+  "description": "bip39 recast",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "bin": "./dist/cli/bin.js",
+  "repository": {
+    "url": "https://github.com/imcotton/at-key-bip39-recast.git",
+    "type": "git"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "./dist/**/*.d.ts",
+    "./dist/**/*.json",
+    "./dist/**/*.js"
+  ],
+  "devDependencies": {
+    "@std/encoding": "npm:@jsr/std__encoding@1",
+    "@tsconfig/node20": "^20.1.6",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^20.9.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

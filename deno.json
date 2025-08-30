@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.esm.sh/gh/denoland/deno@v2.4.5/cli/schemas/config-file.v1.json",
+  "name": "@key/bip39-recast",
+  "version": "0.1.0",
+  "description": "bip39 recast",
+  "license": "MIT",
+  "imports": {
+    "#src/": "./src/",
+    "#fixtures/": "./fixtures/",
+    "@std/assert":     "jsr:@std/assert@1",
+    "@std/encoding": "jsr:@std/encoding@1",
+    "@std/testing":   "jsr:@std/testing@1"
+  },
+  "tasks": {
+    "spec": "deno test ./spec"
+  },
+  "exports": {
+    ".": "./src/mod.ts"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "lib": [
+      "DOM",
+      "ES2023",
+      "deno.window"
+    ]
+  },
+  "publish": {
+    "include": [
+      "deno.json",
+      "LICENSE.txt",
+      "README.md",
+      "./spec",
+      "./src"
+    ],
+    "exclude": [
+      "./fixtures",
+      "./spec/**/__snapshots__/"
+    ]
+  },
+  "lock": false,
+  "lint": {
+    "include": [ "src/" ],
+    "rules": {
+      "tags": [ "recommended" ],
+      "include": [
+        "no-const-assign",
+        "no-non-null-assertion",
+        "no-non-null-asserted-optional-chain"
+      ]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "indentWidth": 4,
+    "lineWidth": 80,
+    "semiColons": true,
+    "singleQuote": true
+  }
+}

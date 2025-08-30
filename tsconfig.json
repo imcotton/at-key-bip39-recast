@@ -1,0 +1,44 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "extends": [
+    "@tsconfig/node20/tsconfig.json",
+    "@tsconfig/strictest/tsconfig.json",
+  ],
+  "exclude": [
+    "./spec",
+    "./dist",
+  ],
+  "include": [
+    "./src",
+  ],
+  "compilerOptions": {
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "module": "esnext",
+    "target": "es2023",
+
+    "lib": [
+      "DOM",
+      "ES2023",
+    ],
+
+    "types": [
+      "node",
+    ],
+
+    "sourceMap": false,
+    "declaration": true,
+    "declarationMap": false,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedSideEffectImports": true,
+    "rewriteRelativeImportExtensions": true,
+
+  }
+}

@@ -38,6 +38,8 @@ export function parse (argv: Iterable<string>) {
 
 function gen (args: Iterable<string>) {
 
+    const type_string = { type: 'string' } as const;
+
     try {
 
         const { values, positionals: [ hex ] } = parseArgs({
@@ -48,13 +50,13 @@ function gen (args: Iterable<string>) {
 
             options: {
 
-                bin: {    type: 'string' },
-                dec: {    type: 'string' },
-                hex: {    type: 'string' },
-                base58: { type: 'string' },
-                base64: { type: 'string' },
+                bin: type_string,
+                dec: type_string,
+                hex: type_string,
+                base58: type_string,
+                base64: type_string,
 
-                size: { type: 'string' },
+                size: type_string,
 
                 help: {
                     short: 'h',
@@ -121,6 +123,8 @@ function gen (args: Iterable<string>) {
 
 function extract (args: Iterable<string>) {
 
+    const type_boolean = { type: 'boolean' } as const;
+
     try {
 
         const { values, positionals } = parseArgs({
@@ -131,12 +135,12 @@ function extract (args: Iterable<string>) {
 
             options: {
 
-                raw: {    type: 'boolean' },
-                bin: {    type: 'boolean' },
-                dec: {    type: 'boolean' },
-                hex: {    type: 'boolean' },
-                base58: { type: 'boolean' },
-                base64: { type: 'boolean' },
+                raw: type_boolean,
+                bin: type_boolean,
+                dec: type_boolean,
+                hex: type_boolean,
+                base58: type_boolean,
+                base64: type_boolean,
 
                 help: {
                     short: 'h',

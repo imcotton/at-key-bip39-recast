@@ -40,7 +40,7 @@ function gen (args: Iterable<string>) {
 
     try {
 
-        const { values } = parseArgs({
+        const { values, positionals: [ hex ] } = parseArgs({
 
             args: Array.from(args),
 
@@ -71,7 +71,7 @@ function gen (args: Iterable<string>) {
             return { type: 'help' as const };
         }
 
-        let entropy = u.decode(rest);
+        let entropy = u.decode({ hex, ...rest });
 
         const size = u.nmap(u.parse_int(10), _size);
 

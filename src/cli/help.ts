@@ -34,7 +34,7 @@ Usage: extract [OPTIONS] <mnemonic sentence>
 Extract out the entropy from a BIP-39 mnemonic sentence.
 
 OPTIONS:
-  --raw            Output the raw entropy.
+  --raw            Output the raw bytes.
   --bin            Output in binary format.
   --dec            Output in decimal format.
   --hex            Output in hexadecimal format (default).

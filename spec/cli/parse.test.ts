@@ -57,7 +57,7 @@ describe('parse [gen]', function () {
 
         const res = parse([ cmd, '--size=12', '--hex', hex, '-', 'wat' ]);
 
-        const entropy = buf.subarray(0, 16);
+        const entropy = buf.subarray(-16);
 
         ast.assertEquals(res, { cmd, info: { type, entropy } });
 
@@ -150,7 +150,7 @@ describe('parse [gen]', function () {
                 '--size', size.toString(),
             ]);
 
-            const entropy = buf.subarray(0, bytes);
+            const entropy = buf.subarray(-bytes);
 
             ast.assertEquals(res, { cmd, info: { type, entropy } });
 

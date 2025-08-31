@@ -64,7 +64,7 @@ describe('cli', function () {
                 const raw = await main(parse([ 'extract', '--raw', ...xs ]));
 
                 ast.assertInstanceOf(raw, Uint8Array);
-                ast.assertEquals(raw, buf.subarray(0, raw.byteLength));
+                ast.assertEquals(raw, buf.subarray(-raw.byteLength));
 
                 return xs;
 

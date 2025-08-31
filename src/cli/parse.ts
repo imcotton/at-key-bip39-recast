@@ -101,7 +101,7 @@ function gen (args: Iterable<string>) {
                 throw new Error(`inadequate entropy of size: ${ size }`);
             }
 
-            entropy = entropy.subarray(0, bytes);
+            entropy = entropy.subarray(-bytes);
 
         }
 

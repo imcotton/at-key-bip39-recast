@@ -73,7 +73,7 @@ function gen (args: Iterable<string>) {
             return { type: 'help' as const };
         }
 
-        let entropy = u.decode({ hex, ...rest });
+        let entropy = u.decode(hex ? { hex, ...rest } : rest);
 
         const size = u.nmap(u.parse_int(10), _size);
 

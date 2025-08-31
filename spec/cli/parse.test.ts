@@ -63,6 +63,18 @@ describe('parse [gen]', function () {
 
     });
 
+    it('default to --hex input', function () {
+
+        const buf = Uint8Array.from({ length: 42 }, (_, i) => i);
+        const hex = u.encode_hex(buf);
+
+        const    with_hex = parse([ cmd, '--size=12', '--hex', hex ]);
+        const without_hex = parse([ cmd, '--size=12',          hex ]);
+
+        ast.assertEquals(with_hex, without_hex);
+
+    });
+
     it('errors while no --size nor entropy', function () {
 
         const res = parse([ cmd ]);

@@ -14,7 +14,7 @@ permissions:
 
 jobs:
 
-  test:
+  test-JSR:
 
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 3
@@ -34,6 +34,9 @@ jobs:
 
       - name: Run tests
         run: deno task spec --coverage --quiet --parallel
+
+      - name: Run publish --dry-run
+        run: deno publish --dry-run
 
       - name: Run codecov
         uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0

@@ -3,12 +3,31 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    it_to_rgba,
     search_value,
     assert_sentence,
     to_error,
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('it_to_rgba', function () {
+
+    it('throws on non 32-byte Iterable', function () {
+
+        ast.assertThrows(
+            () => it_to_rgba([ 1, 2, 3 ]),
+            Error,
+            'invalid 32-byte Iterable',
+        );
+
+    });
+
+});
 
 
 

@@ -353,6 +353,21 @@ export function * chunk (n: number, str: string) {
 
 
 
+export function * chunk_buf (n: number, buf: U8Arr) {
+
+    let chunk = buf;
+
+    while (chunk.length > 0) {
+        yield chunk.subarray(0, n);
+        chunk = chunk.subarray(n);
+    }
+
+}
+
+
+
+
+
 type RPR <T extends string, P> = Readonly<Partial<Record<T, P>>>;
 
 export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<

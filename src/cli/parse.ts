@@ -55,6 +55,7 @@ function gen (args: Iterable<string>) {
                 hex: type_string,
                 base58: type_string,
                 base64: type_string,
+                rgba: type_string,
 
                 size: type_string,
 
@@ -141,6 +142,7 @@ function extract (args: Iterable<string>) {
                 hex: type_boolean,
                 base58: type_boolean,
                 base64: type_boolean,
+                rgba: type_boolean,
 
                 help: {
                     short: 'h',

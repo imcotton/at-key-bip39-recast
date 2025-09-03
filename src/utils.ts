@@ -220,6 +220,24 @@ export function parse_int (base: number) {
 
 
 
+export function it_to_rgba ([ r, g, b, a ]: Iterable<number>) {
+
+    if (   r != null
+        && g != null
+        && b != null
+        && a != null
+    ) {
+        return [ r, g, b, a ] as const;
+    }
+
+    throw new Error('invalid 32-byte Iterable');
+
+}
+
+
+
+
+
 export function search_value <T> (arr: ReadonlyArray<T>) {
 
     return function * (indexes: Iterable<number>) {

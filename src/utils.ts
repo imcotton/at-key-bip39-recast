@@ -144,6 +144,42 @@ export function encode_dec (buf: Uint8Array | ArrayBuffer) {
 
 
 
+export function decode_rgba (str: string) {
+
+    const res = str.matchAll(/rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(\.\d+)?)\s*\)/g);
+
+    const arr = Array
+
+        .from(res, xs => xs.slice(1).map(Number.parseFloat))
+
+        .flatMap(([ r = 0, g = 0, b = 0, a = 1 ]) => [
+            r, g, b, Math.round(a * 0xFF),
+        ])
+
+    ;
+
+    return Uint8Array.from(arr);
+
+}
+
+export function encode_rgba (buf: Uint8Array | ArrayBuffer) {
+
+    return Array
+
+        .from(chunk_buf(4, mk_Uint8Array(buf)), it_to_rgba({ digits: 7 }))
+
+        .map(rgba => `rgba(${ rgba.join(', ') })`)
+
+        .join(', ')
+
+    ;
+
+}
+
+
+
+
+
 export function padding_hex (hex: string) {
 
     return hex.length % 2 === 0 ? hex : _0(hex);

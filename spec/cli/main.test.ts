@@ -95,6 +95,33 @@ describe('cli', function () {
 
     });
 
+    it('extract and gen via --rgba', async function () {
+
+        const sample = vectors.english.slice(1).map(([ _, snd = '' ]) => [
+            snd,
+            snd.split(' '),
+        ] as const);
+
+        for (const [ raw, sentence ] of sample) {
+
+            const colors = await main(parse([
+                'extract', '--rgba', ...sentence,
+            ]));
+
+            ast.assert(typeof colors === 'string');
+
+            const res = await main(parse([
+                'gen', '--rgba', colors,
+            ]));
+
+            ast.assert(typeof res === 'string');
+
+            ast.assertStrictEquals(res, raw);
+
+        }
+
+    });
+
 });
 
 

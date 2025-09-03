@@ -423,7 +423,7 @@ function * chunk_buf (n: number, buf: Uint8Array) {
 
 type RPR <T extends string, P> = Readonly<Partial<Record<T, P>>>;
 
-export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
+export function encode ({ raw, bin, dec, hex, base58, base64, rgba }: RPR<
 
         | 'raw'
         | 'bin'
@@ -431,6 +431,7 @@ export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
         | 'hex'
         | 'base58'
         | 'base64'
+        | 'rgba'
 
 , boolean>) {
 
@@ -446,17 +447,20 @@ export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
 
     if (base64) return encode_base64;
 
+    if (rgba) return encode_rgba;
+
     return encode_hex;
 
 }
 
-export function decode ({ bin, dec, hex, base58, base64 }: RPR<
+export function decode ({ bin, dec, hex, base58, base64, rgba }: RPR<
 
         | 'bin'
         | 'dec'
         | 'hex'
         | 'base58'
         | 'base64'
+        | 'rgba'
 
 , string>) {
 
@@ -469,6 +473,8 @@ export function decode ({ bin, dec, hex, base58, base64 }: RPR<
     if (base58) return decodeBase58(base58);
 
     if (base64) return decode_base64(base64);
+
+    if (rgba) return decode_rgba(rgba);
 
     return void 0;
 

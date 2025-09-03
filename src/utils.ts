@@ -40,6 +40,16 @@ export function shasum (algo: `SHA-${ '256' | '384' | '512' }`) {
 
 
 
+export function mk_Uint8Array (buf: Uint8Array | ArrayBuffer) {
+
+    return ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
+
+}
+
+
+
+
+
 export function encode_hex (data: Uint8Array | ArrayBuffer) {
 
     // @ts-ignore polyfill

@@ -3,6 +3,7 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    mk_Uint8Array,
     it_to_rgba,
     search_value,
     assert_sentence,
@@ -10,6 +11,32 @@ import {
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('mk_Uint8Array', function () {
+
+    it('returns back original buf', function () {
+
+        const buf = Uint8Array.of(1, 2, 3);
+        const res = mk_Uint8Array(buf);
+
+        ast.assertStrictEquals(res, buf);
+
+    });
+
+    it('returns equally Uint8Array', function () {
+
+        const buf = Uint8Array.of(1, 2, 3);
+        const res = mk_Uint8Array(buf.buffer);
+
+        ast.assertEquals(res, buf);
+
+    });
+
+});
 
 
 

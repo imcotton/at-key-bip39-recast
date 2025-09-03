@@ -148,17 +148,9 @@ export function decode_rgba (str: string) {
 
     const res = str.matchAll(/rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(\.\d+)?)\s*\)/g);
 
-    const arr = Array
+    const arr = Array.from(res, xs => xs.slice(1).map(Number.parseFloat));
 
-        .from(res, xs => xs.slice(1).map(Number.parseFloat))
-
-        .flatMap(([ r = 0, g = 0, b = 0, a = 1 ]) => [
-            r, g, b, Math.round(a * 0xFF),
-        ])
-
-    ;
-
-    return Uint8Array.from(arr);
+    return emerge_buf_from_rgba(arr);
 
 }
 
@@ -183,6 +175,24 @@ export function encode_rgba (buf: Uint8Array | ArrayBuffer) {
 export function padding_hex (hex: string) {
 
     return hex.length % 2 === 0 ? hex : _0(hex);
+
+}
+
+
+
+
+
+export function emerge_buf_from_rgba (
+
+        rgba: ReadonlyArray<readonly number[]>,
+
+) {
+
+    const arr = rgba.flatMap(([ r = 0, g = 0, b = 0, a = 1 ]) => [
+        r, g, b, Math.round(a * 0xFF),
+    ]);
+
+    return Uint8Array.from(arr);
 
 }
 

@@ -78,6 +78,7 @@ describe('cli', function () {
             'hex',
             'base58',
             'base64',
+            'rgba',
         ];
 
         await Promise.all(args.map(async function (enc) {
@@ -92,6 +93,73 @@ describe('cli', function () {
             ast.assertEquals(snd.split(' '), xs);
 
         }));
+
+    });
+
+    it('extract and gen via --rgba', async function () {
+
+        const sample = vectors.english.map(([ _, snd = '' ]) => [
+            snd,
+            snd.split(' '),
+        ] as const);
+
+        for (const [ raw, sentence ] of sample) {
+
+            const colors = await main(parse([
+                'extract', '--rgba', ...sentence,
+            ]));
+
+            ast.assert(typeof colors === 'string');
+
+            const res = await main(parse([
+                'gen', '--rgba', colors,
+            ]));
+
+            ast.assert(typeof res === 'string');
+
+            ast.assertStrictEquals(res, raw);
+
+        }
+
+    });
+
+    it('pins on [gen --rgba] for void-come-effort', async function () {
+
+        const raw = vectors.english.at(-1)?.at(1);
+        const sentence = raw?.split(' ');
+
+        u.assert_sentence(sentence);
+
+        const extract = await main(parse([
+            'extract', '--rgba', ...sentence,
+        ]));
+
+        ast.assert(typeof extract === 'string');
+
+        const css = refine(`
+            rgba(245, 133, 193, 0.101960784),
+            rgba(236,  82,  13, 0.709803921),
+            rgba(125, 211,  83, 0.776470588),
+            rgba(149,  84, 178, 0.101960784),
+            rgba(137, 178,  15, 0.690196078),
+            rgba(101,   9, 102, 0.980392156),
+            rgba( 10, 157, 111, 0.45490196),
+            rgba(253, 152, 157, 0.560784313)
+        `);
+
+        ast.assertStrictEquals(refine(extract), css);
+
+        const gen = await main(parse([
+            'gen', '--rgba', css,
+        ]));
+
+        ast.assertStrictEquals(gen, raw);
+
+        function refine (str: string) {
+
+            return str.trim().replaceAll(' ', '').replaceAll('\n', '');
+
+        }
 
     });
 
@@ -172,6 +240,23 @@ describe('cli / gen', function () {
             const { err: { message }, note } = res;
 
             ast.assertStringIncludes(message, `Unknown option '--wat'`);
+            ast.assertEquals(note, help.gen);
+
+        });
+
+        it('throws on invalid --rgba', async function () {
+
+            const res = await main(parse([
+                'gen', '--rgba', 'rgba(1,2,3,4), rgba(1, 2, 3)',
+            ]));
+
+            ast.assert(typeof res !== 'string'
+                && (res instanceof Uint8Array) === false
+            );
+
+            const { err: { message }, note } = res;
+
+            ast.assertStringIncludes(message, 'invalid entropy bytes: ');
             ast.assertEquals(note, help.gen);
 
         });

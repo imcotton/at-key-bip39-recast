@@ -46,6 +46,16 @@ export function shasum (algo: `SHA-${ '256' | '384' | '512' }`) {
 
 
 
+export function mk_Uint8Array (buf: U8Arr | ArrayBuffer) {
+
+    return ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
+
+}
+
+
+
+
+
 export function encode_hex (data: U8Arr | ArrayBuffer) {
 
     // @ts-ignore polyfill
@@ -118,9 +128,7 @@ export function decode_bin (bin: string) {
 
 export function encode_bin (buf: U8Arr | ArrayBuffer) {
 
-    const it = ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
-
-    return join_array_from(it, padding_binary_by_8);
+    return join_array_from(mk_Uint8Array(buf), padding_binary_by_8);
 
 }
 

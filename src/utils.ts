@@ -156,9 +156,7 @@ export function decode_rgba (str: string) {
 
 export function encode_rgba (buf: Uint8Array | ArrayBuffer) {
 
-    return Array
-
-        .from(chunk_buf(4, mk_Uint8Array(buf)), it_to_rgba({ digits: 7 }))
+    return slice_buf_by_rgba(buf)
 
         .map(rgba => `rgba(${ rgba.join(', ') })`)
 
@@ -193,6 +191,22 @@ export function emerge_buf_from_rgba (
     ]);
 
     return Uint8Array.from(arr);
+
+}
+
+
+
+
+
+export function slice_buf_by_rgba (buf: Uint8Array | ArrayBuffer) {
+
+    return Array.from(
+
+        chunk_buf(4, mk_Uint8Array(buf)),
+
+        it_to_rgba({ digits: 7 }),
+
+    );
 
 }
 

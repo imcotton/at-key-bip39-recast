@@ -152,6 +152,57 @@ export function encode_dec (buf: U8Arr | ArrayBuffer) {
 
 
 
+export function decode_rgba (str: string): Uint8Array<ArrayBuffer> {
+
+    const res = str.replaceAll(/\s/g, '').matchAll(new RegExp(join([
+        String.raw`rgba?\(`                ,
+        String.raw`(\d{1,3}),`             ,
+        String.raw`(\d{1,3}),`             ,
+        String.raw`(\d{1,3})`              ,
+        String.raw`(?:,(\d+(?:\.\d+)?))?`  ,
+        String.raw`\)`                     ,
+    ]), 'g'));
+
+    const nan: (f: (n: number) => number) => (n: number) => number
+    = f => n => Number.isNaN(n) ? 0xFF : f(n);
+
+    const arr = Array
+        .from(res, xs => xs.slice(1, 5).map(Number))
+        .flatMap(modify(3, nan(n => Math.round(n * 0xFF))))
+    ;
+
+    if (valid_entropy(arr.length)) {
+        return Uint8Array.from(arr);
+    }
+
+    throw new Error(`invalid entropy bytes: ${ arr.length }`);
+
+}
+
+export function encode_rgba (buf: U8Arr | ArrayBuffer): string {
+
+    if (buf.byteLength % 4 !== 0) {
+
+        throw new Error('input bytes length must be a multiple of 4', {
+            cause: buf.byteLength,
+        });
+
+    }
+
+    const base = 10 ** 9;
+
+    return slice_buf_by_rgba(buf)
+        .map(modify(3, n => Math.trunc(n / 0xFF * base) / base))
+        .map(rgba => `rgba(${ rgba.join(', ') })`)
+        .join(', ')
+    ;
+
+}
+
+
+
+
+
 export function padding_bin (bin: string) {
 
     return bin.padStart(Math.ceil(bin.length / 8) * 8, '0');

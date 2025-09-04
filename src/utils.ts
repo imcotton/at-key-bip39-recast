@@ -204,6 +204,20 @@ export function nmap <A, B> (
 
 
 
+export function modify <T> (i: number, f: (x: T) => T) {
+
+    return function (xs: ReadonlyArray<T>) {
+
+        return nmap(x => xs.with(i, f(x)), xs.at(i)) ?? xs;
+
+    };
+
+}
+
+
+
+
+
 export function to_error (error: unknown, msg = 'unknown') {
 
     return error instanceof Error ? error : new Error(msg);

@@ -3,6 +3,7 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    modify,
     mk_Uint8Array,
     it_to_rgba,
     decode_bin,
@@ -13,6 +14,33 @@ import {
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('modify', function () {
+
+    it('in bounds', function () {
+
+        const i = 1;
+        const arr = [ 4, 5, 6 ];
+        const fn = modify(i, (n: number) => n * 10);
+
+        ast.assertEquals(fn(arr), arr.with(i, 50));
+
+    });
+
+    it('out of bounds', function () {
+
+        const arr = [ 4, 5, 6 ];
+        const fn = modify(999, (n: number) => n * 10);
+
+        ast.assertStrictEquals(fn(arr), arr);
+
+    });
+
+});
 
 
 

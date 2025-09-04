@@ -3,6 +3,8 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    encode_rgba,
+    decode_rgba,
     modify,
     mk_Uint8Array,
     it_to_rgba,
@@ -14,6 +16,50 @@ import {
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('encode_rgba', function () {
+
+    it('throws on invalid entropy length', function () {
+
+        ast.assertThrows(() => encode_rgba(Uint8Array.of(1, 2, 3)));
+
+    });
+
+});
+
+
+
+
+
+describe('decode_rgba', function () {
+
+    const css = `linear-gradient(to left,
+        rgb (  22, 34, 7  ),
+        rgba(213, 49, 195, 0.396),
+        rgba(6, 8, 6),
+        rgba(220, 139, 140, 0.15),
+        rgba(107, 148, 233, 0.408),
+        rgba(82, 83, 8, 0.46),
+        rgba(110, 189, 100, 0.576),
+        rgba(136, 86, 22, 0.137) 1 / 2px 0
+    `;
+
+    it('reads optional alpha', function () {
+
+        const buf = decode_rgba(css);
+
+        ast.assertInstanceOf(buf, Uint8Array);
+
+        ast.assertStrictEquals(buf.at( 3), 0xFF);
+        ast.assertStrictEquals(buf.at(11), 0xFF);
+
+    });
+
+});
 
 
 

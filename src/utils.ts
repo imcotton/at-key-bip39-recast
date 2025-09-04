@@ -172,6 +172,16 @@ export function padding_hex (hex: string) {
 
 
 
+export function slice_buf_by_rgba (buf: U8Arr | ArrayBuffer) {
+
+    return Array.from(chunk_buf(4, mk_Uint8Array(buf)), it_to_rgba);
+
+}
+
+
+
+
+
 export type Sentence = ReadonlyArray<string> & { readonly _: unique symbol };
 
 export function assert_sentence (

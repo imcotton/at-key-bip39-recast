@@ -3,12 +3,86 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    modify,
+    mk_Uint8Array,
+    it_to_rgba,
     search_value,
     assert_sentence,
     to_error,
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('modify', function () {
+
+    it('in bounds', function () {
+
+        const i = 1;
+        const arr = [ 4, 5, 6 ];
+        const fn = modify(i, (n: number) => n * 10);
+
+        ast.assertEquals(fn(arr), arr.with(i, 50));
+
+    });
+
+    it('out of bounds', function () {
+
+        const arr = [ 4, 5, 6 ];
+        const fn = modify(999, (n: number) => n * 10);
+
+        ast.assertStrictEquals(fn(arr), arr);
+
+    });
+
+});
+
+
+
+
+
+describe('mk_Uint8Array', function () {
+
+    it('returns back original buf', function () {
+
+        const buf = Uint8Array.of(1, 2, 3);
+        const res = mk_Uint8Array(buf);
+
+        ast.assertStrictEquals(res, buf);
+
+    });
+
+    it('returns equally Uint8Array', function () {
+
+        const buf = Uint8Array.of(1, 2, 3);
+        const res = mk_Uint8Array(buf.buffer);
+
+        ast.assertEquals(res, buf);
+
+    });
+
+});
+
+
+
+
+
+describe('it_to_rgba', function () {
+
+    it('throws on non 32-byte Iterable', function () {
+
+        ast.assertThrows(
+            () => it_to_rgba([ 1, 2, 3 ]),
+            Error,
+            'invalid 32-byte Iterable',
+        );
+
+    });
+
+});
 
 
 

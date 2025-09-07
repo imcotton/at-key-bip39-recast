@@ -3,12 +3,42 @@ import { describe, it } from '@std/testing/bdd';
 
 import {
 
+    decode_bin,
+    decode_hex,
     search_value,
     assert_sentence,
     to_error,
     decode_dec,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('decode_bin', function () {
+
+    const sample = [
+
+        [             '1100',   '0C' ],
+        [            '01100',   '0C' ],
+        [           '001100',   '0C' ],
+        [        '100000000', '0100' ],
+        [ '1111101000100001', 'FA21' ],
+
+    ] as const;
+
+    for (const [ bin, hex ] of sample) {
+
+        it(`decode_bin ${ bin }`, function () {
+
+            ast.assertEquals(decode_bin(bin), decode_hex(hex));
+
+        });
+
+    }
+
+});
 
 
 

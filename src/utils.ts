@@ -102,7 +102,7 @@ export function decode_base64 (data: string) {
 
 export function decode_bin (bin: string) {
 
-    return Uint8Array.from(chunk(8, bin), parse_int(2));
+    return Uint8Array.from(chunk(8, padding_bin(bin)), parse_int(2));
 
 }
 
@@ -127,6 +127,16 @@ export function decode_dec (bin: string) {
 export function encode_dec (buf: Uint8Array | ArrayBuffer) {
 
     return radix10(BigInt(_0x(encode_hex(buf))));
+
+}
+
+
+
+
+
+export function padding_bin (bin: string) {
+
+    return bin.padStart(Math.ceil(bin.length / 8) * 8, '0');
 
 }
 

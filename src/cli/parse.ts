@@ -13,7 +13,9 @@ export function parse (argv: Iterable<string>) {
     const [ cmd, ...args ] = argv;
 
     if (cmd == null || cmd === '-h' || cmd === '--help' || cmd === 'help') {
+
         return { cmd: 'help' as const };
+
     }
 
     if (cmd === 'gen') {

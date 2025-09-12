@@ -81,7 +81,10 @@ jobs:
           npm install --no-{fund,package-lock,save} typescript@${{ matrix.tsc }} esbuild@0.25.9
 
       - name: Build
-        run: npx tsc
+        run: |-
+
+          rm -r ./src/apps
+          npx tsc
 
       - name: Bundle
         run: npx esbuild  ./dist/utils.js

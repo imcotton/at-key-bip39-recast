@@ -12,6 +12,12 @@ export const { crypto: webcrypto } = globalThis;
 
 
 
+export type U8Arr = ReturnType<typeof Uint8Array.of>;
+
+
+
+
+
 function id <T> (a: T) {
 
     return a;
@@ -40,7 +46,7 @@ export function shasum (algo: `SHA-${ '256' | '384' | '512' }`) {
 
 
 
-export function encode_hex (data: Uint8Array | ArrayBuffer) {
+export function encode_hex (data: U8Arr | ArrayBuffer) {
 
     // @ts-ignore polyfill
     const result = data.toHex?.();
@@ -72,7 +78,7 @@ export function decode_hex (data: string) {
 
 
 
-export function encode_base64 (data: Uint8Array | ArrayBuffer) {
+export function encode_base64 (data: U8Arr | ArrayBuffer) {
 
     // @ts-ignore polyfill
     const result = data.toBase64?.();
@@ -110,7 +116,7 @@ export function decode_bin (bin: string) {
 
 }
 
-export function encode_bin (buf: Uint8Array | ArrayBuffer) {
+export function encode_bin (buf: U8Arr | ArrayBuffer) {
 
     const it = ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
 
@@ -128,7 +134,7 @@ export function decode_dec (bin: string) {
 
 }
 
-export function encode_dec (buf: Uint8Array | ArrayBuffer) {
+export function encode_dec (buf: U8Arr | ArrayBuffer) {
 
     return radix10(BigInt(_0x(encode_hex(buf))));
 

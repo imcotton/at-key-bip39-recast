@@ -38,7 +38,7 @@ export async function from_mnemonic (
         sentence: u.Sentence,
         dict = en as ReadonlyArray<string>,
 
-): Promise<Uint8Array<ArrayBuffer>> {
+): Promise<u.U8Arr> {
 
     const search = u.search_index(dict);
 
@@ -73,7 +73,7 @@ export async function from_mnemonic (
 
 export async function to_mnemonic (
 
-        buf: Uint8Array<ArrayBuffer>,
+        buf: u.U8Arr,
         dict = en as ReadonlyArray<string>,
 
 ): Promise<ReadonlyArray<string>> {
@@ -113,7 +113,7 @@ function checksum_with_chunks_of_bit (
 
 ) {
 
-    return async function (origin: Uint8Array<ArrayBuffer>) {
+    return async function (origin: u.U8Arr) {
 
         const bits = calc(origin.byteLength);
         const split = u.split_at(bits + (origin.byteLength * 8));

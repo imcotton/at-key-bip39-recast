@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>bip39-recast</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta http-equiv="Content-Security-Policy" content="" />
+
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+
+    <link   crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://raw.esm.sh/@picocss/pico@2.1.1/css/pico.min.css"
+            integrity="sha256-+8mmP8n8n3LRL9f8mAbhH6n3euT5ytFGsnADoRGbo9s="
+    />
+
+    <script type="module" src="../src/apps/index.ts"></script>
+
+    <style>
+
+        html {
+
+            height: 100%;
+
+            border-image: linear-gradient(to left
+
+              , rgba(129, 160, 233, 0.765)
+              , rgba(191,  12, 192, 0.391)
+              , rgba( 63, 240, 132, 0.452)
+              , rgba( 14,  90, 140, 0.682)
+              , rgba(242,  65,  89, 0.827)
+              , rgba(249, 191,  49, 0.493)
+              , rgba( 35, 109,  91, 0.792)
+              , rgba( 57, 167, 249, 0.875)
+
+            ) 1 / 0.20rem 0 0;
+
+        }
+
+        body {
+
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100svh;
+
+            & > main {
+                flex: 1;
+            }
+
+        }
+
+        pre.code {
+
+            position: relative;
+
+            & > code {
+
+                font-size: large;
+                text-wrap-mode: wrap;
+                padding-right: 3.4em;
+                word-spacing: 0.3rem;
+                line-height: 1.4;
+
+            }
+
+            & > button {
+
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 0.6em 0.6em 0 0;
+                padding: 0.5em;
+                line-height: 1;
+
+                &:hover {
+                    background-color: var(--pico-text-selection-color);
+                }
+
+            }
+
+        }
+
+        .fade-in {
+
+            will-change: margin-left;
+            animation: fadeIn 0.3s forwards ease-out;
+
+        }
+
+        @keyframes fadeIn {
+            0% {
+                margin-left: 20%;
+            }
+            100% {
+                margin-left: 0px;
+            }
+        }
+
+        [x-size] {
+
+            & legend {
+
+                float: left;
+                margin-right: 1.4em;
+
+                @media screen and (max-width: 1023px) {
+                    float: none;
+                }
+
+            }
+
+            & label {
+
+                display: inline-block;
+                margin-right: 1.4em;
+
+                @media screen and (max-width: 450px) {
+                    margin-right: 0.9em;
+                }
+
+            }
+
+        }
+
+        [x-bg] {
+
+            background-image: var(--gradient);
+
+            &::after {
+                display: inline-block;
+                vertical-align: middle;
+                float: none;
+            }
+
+        }
+
+        section.pane {
+
+            display: grid;
+            gap: 1em;
+
+            grid-template:
+                "a c"
+                "b c" 1fr / 8em 1fr
+            ;
+
+            @media screen and (max-width: 1023px) {
+                align-items: center;
+                grid-template:
+                    "a b"
+                    "c c" / 12em
+                ;
+            }
+
+            & > * {
+                margin-bottom: 0;
+            }
+
+            & [x-g-a] {
+
+                grid-area: a;
+                font-size: larger;
+                text-align: right;
+                text-align-last: right;
+                height: max-content;
+
+                @media screen and (max-width: 1023px) {
+                    font-size: large;
+                }
+
+            }
+
+            & [x-g-b] {
+
+                grid-area: b;
+                justify-self: end;
+                height: max-content;
+                padding: 0.4em;
+                padding-right: 0;
+
+                @media screen and (max-width: 1023px) {
+                    align-items: center;
+                    justify-self: start;
+                }
+
+            }
+
+            & [x-g-c] {
+
+                grid-area: c;
+
+                & code {
+                    @media screen and (max-width: 1023px) {
+                        font-size: large;
+                    }
+                }
+
+            }
+
+        }
+
+        details[x-item] {
+
+            & [x-result] {
+
+                &:has(input[name="redact"]:checked) code {
+                    transform: translateZ(0);
+                    filter: blur(15px);
+                    will-change: filter;
+                }
+
+                & [x-sentence] {
+                    text-wrap: balance;
+                }
+
+            }
+
+        }
+
+        [x-source-code] {
+
+            text-align: center;
+
+            & a {
+                vertical-align: text-bottom;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <noscript>
+            <p>
+                <mark>JavaScript required</mark>
+            </p>
+        </noscript>
+
+        <section>
+
+            <form method="post" id="form">
+
+                <fieldset x-size>
+
+                    <legend>
+                        Mnemonic Sentence <strong>size</strong>:
+                    </legend>
+
+                    <label>
+                        <input type="radio" name="size" value="12" /> 12
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="15" /> 15
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="18" /> 18
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="21" /> 21
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="24" checked /> 24
+                    </label>
+
+                </fieldset>
+
+                <div class="grid" x-actions>
+
+                    <button type="submit" id="submit" disabled>
+                        &#x1F3B2;
+                        <strong>Generate</strong> Random
+                    </button>
+
+                    <button type="button" id="extract" class="contrast">
+                        &#x1F4DD;
+                        <strong>Extract</strong> Existing
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <section id="output"></section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+
+            <hr />
+
+            <p x-source-code>
+                &#x1F4BE;
+                <a  href="https://jsr.io/@key/bip39-recast"
+                    rel="noopener noreferrer nofollow external"
+                    target="_blank"
+                >
+                    source code
+                </a>
+            </p>
+
+        </div>
+    </footer>
+
+    <template id="tpl">
+
+        <details class="fade-in" x-item>
+
+            <summary role="button" class="outline secondary" x-bg>
+                <code x-title></code>
+            </summary>
+
+            <section class="pane">
+
+                <select name="format" x-format x-g-a>
+                    <option value="bin">binary</option>
+                    <option value="dec">decimal</option>
+                    <option value="hex">hex</option>
+                    <option value="base58">base58</option>
+                    <option value="base64">base64</option>
+                    <option value="rgba" selected>rgba</option>
+                </select>
+
+                <label x-g-b>
+                    <input name="CLI" type="checkbox" role="switch" />
+                    CLI
+                </label>
+
+                <pre class="code" x-g-c><code x-seed></code
+                    ><button class="outline secondary"
+                    >&#x1F4CB;</button>
+                </pre>
+
+            </section>
+
+            <section class="pane" x-result>
+
+                <strong x-g-a>
+                    mnemonic sentence:
+                </strong>
+
+                <label x-g-b>
+                    <input type="checkbox" name="redact" checked />
+                    hide
+                </label>
+
+                <pre class="code" x-g-c><code x-sentence></code
+                    ><button class="outline secondary"
+                    >&#x1F4CB;</button>
+                </pre>
+
+            </section>
+
+        </details>
+
+    </template>
+
+</body>
+
+</html>
+

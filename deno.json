@@ -37,6 +37,7 @@
     ],
     "exclude": [
       "./fixtures",
+      "./src/apps",
       "./spec/**/__snapshots__/"
     ]
   },

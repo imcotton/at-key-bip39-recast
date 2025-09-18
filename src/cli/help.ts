@@ -22,6 +22,7 @@ INPUTS:
   --hex            Input in hexadecimal format (default).
   --base58         Input in Base58.
   --base64         Input in Base64.
+  --rgba           Input [ rgba(), ... ].
 `;
 
 
@@ -40,5 +41,6 @@ OPTIONS:
   --hex            Output in hexadecimal format (default).
   --base58         Output in Base58.
   --base64         Output in Base64.
+  --rgba           Output in [ rgba(), ... ].
 `;
 

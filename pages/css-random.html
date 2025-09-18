@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>CSS random() Entropy</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none';
+           img-src 'self' data:;
+         style-src 'self' 'unsafe-inline' raw.esm.sh:443;
+        script-src 'self' 'unsafe-hashes' 'sha256-9gOBGqEQINNDuds+tkXbNzih6klbz+KeCyxEj4KRLeM=';
+    " />
+
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+
+    <link   crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://raw.esm.sh/@picocss/pico@2.1.1/css/pico.min.css"
+            integrity="sha256-+8mmP8n8n3LRL9f8mAbhH6n3euT5ytFGsnADoRGbo9s="
+    />
+
+    <script type="module" src="./dist/css-random.js"></script>
+
+    <style>
+
+        html {
+            height: 100%;
+        }
+
+        body {
+
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100svh;
+
+            & > main {
+                flex: 1;
+            }
+
+        }
+
+        #root {
+            box-shadow: none;
+            border: 2px solid var(--pico-primary-border);
+        }
+
+        #palette {
+
+            flex: 1;
+
+            background-image: linear-gradient(to left,
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%)),
+                hsl(random(0turn, 1turn) random(0%, 100%) random(0%, 100%) / random(0%, 100%))
+            );
+
+        }
+
+        @supports (width: random(0vw, 100vw)) {
+            #not-support {
+                display: none;
+            }
+        }
+
+        #rgba, #sentence {
+            overflow-wrap: anywhere;
+            font-size: large;
+            padding: 1.2em 1em;
+        }
+
+        [x-source] {
+
+            display: flex;
+            gap: 1em;
+
+            & button {
+                margin: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/" role="button" class="outline secondary">
+                            go back
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <noscript>
+            <p>
+                <mark>JavaScript required to read CSS values</mark>
+            </p>
+        </noscript>
+
+        <p id="not-support">
+            <mark>
+                This browser does not support the CSS <b>random()</b>
+                function, the demo will not work. You should try it in
+                <b>Safari Technology Preview</b>.
+            </mark>
+        </p>
+
+        <article id="root" hidden>
+
+            <section x-source>
+                <div id="palette"></div>
+                <button type="button" onclick="location.reload()">Reload</button>
+            </section>
+
+            <hr />
+
+            <section id="output">
+
+                <section>
+                    <p>
+                        <strong>CLI</strong>
+                        <sup>(recommend run with <b>Deno</b>)</sup>
+                    </p>
+                    <code id="rgba"></code>
+                </section>
+
+                <section>
+                    <details>
+                        <summary role="button" class="secondary">
+                            <u>Mnemonic Sentence</u>
+                        </summary>
+                        <code id="sentence"></code>
+                    </details>
+                </section>
+
+            </section>
+
+        </article>
+
+    </main>
+
+</body>
+
+</html>
+

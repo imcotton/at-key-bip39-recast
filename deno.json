@@ -12,6 +12,16 @@
     "@std/testing":   "jsr:@std/testing@1"
   },
   "tasks": {
+    "build": "deno bundle ./src/apps/*.ts --code-splitting --platform=browser --outdir=./pages/dist",
+    "build-watch": "deno task build --watch",
+    "serve": "deno run -N -R=./pages jsr:@std/http@1/file-server ./pages",
+    "dev": {
+      "dependencies": [ "build-watch", "serve" ]
+    },
+    "pages": {
+      "command": "deno bundle ./pages/*.html --code-splitting --platform=browser --outdir=./dist",
+      "dependencies": [ "build" ]
+    },
     "spec": "deno test ./spec"
   },
   "exports": {

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>gradients for bip39-recast gen</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none';
+           img-src 'self' data:;
+         style-src 'self' 'unsafe-inline' raw.esm.sh:443;
+        script-src 'self';
+    " />
+
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+
+    <link   crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://raw.esm.sh/@picocss/pico@2.1.1/css/pico.min.css"
+            integrity="sha256-+8mmP8n8n3LRL9f8mAbhH6n3euT5ytFGsnADoRGbo9s="
+    />
+
+    <script type="module" src="./dist/gradient-gen.js"></script>
+
+    <style>
+
+        html {
+            height: 100%;
+        }
+
+        body {
+
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100svh;
+
+            & > main {
+                flex: 1;
+            }
+
+        }
+
+        code.wrap {
+            overflow-wrap: anywhere;
+            font-size: large;
+            padding: 1.2em 1em;
+            line-height: 1.4;
+            word-spacing: 0.6rem;
+        }
+
+        .fade-in {
+            will-change: margin-left;
+            animation: fadeIn 0.3s forwards ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                margin-left: 20%;
+            }
+            100% {
+                margin-left: 0px;
+            }
+        }
+
+        [x-size] {
+
+            & legend {
+
+                float: left;
+                margin-right: 1.4em;
+
+                @media screen and (max-width: 1023px) {
+                    float: none;
+                }
+
+            }
+
+            & label {
+
+                display: inline-block;
+                margin-right: 1.4em;
+
+                @media screen and (max-width: 450px) {
+                    margin-right: 0.9em;
+                }
+
+            }
+
+        }
+
+        [x-bg] {
+
+            background-image: var(--gradient);
+
+            &::after {
+                display: inline-block;
+                vertical-align: middle;
+                float: none;
+            }
+
+        }
+
+        details[x-item] [x-inner] {
+
+            @media screen and (min-width: 576px) {
+                margin-left: 2em;
+            }
+
+            & [x-sentence] {
+
+                text-wrap: balance;
+
+                &:empty {
+                    display: none;
+                }
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/" role="button" class="outline secondary">
+                            go back
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <noscript>
+            <p>
+                <mark>JavaScript required</mark>
+            </p>
+        </noscript>
+
+        <section>
+
+            <form method="post" id="form">
+
+                <fieldset x-size>
+
+                    <legend>
+                        Mnemonic Sentence <strong>size</strong>:
+                    </legend>
+
+                    <label>
+                        <input type="radio" name="size" value="12" /> 12
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="15" /> 15
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="18" /> 18
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="21" /> 21
+                    </label>
+                    <label>
+                        <input type="radio" name="size" value="24" checked /> 24
+                    </label>
+
+                </fieldset>
+
+                <div class="grid">
+
+                    <button type="submit" id="submit" disabled>
+                        <strong>Generate</strong> Random
+                    </button>
+
+                    <button type="button" id="extract" class="contrast">
+                        <strong>Extract</strong> Existing
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <section id="output"></section>
+
+    </main>
+
+    <template id="tpl">
+
+        <details class="fade-in" x-item>
+
+            <summary role="button" class="outline secondary" x-bg>
+                <code x-title></code>
+            </summary>
+
+            <div x-inner>
+
+                <p>
+                    <code class="wrap" x-cli></code>
+                </p>
+
+                <div>
+
+                    <button type="button" class="outline" x-copy-colors>
+                        Copy <b>Colors</b>
+                    </button>
+
+                    <button type="button" class="outline" x-copy-cli>
+                        Copy <b>CLI</b>
+                    </button>
+
+                    <button type="button" class="secondary" x-run>
+                        Run
+                    </button>
+
+                </div>
+
+                <p>
+                    <code class="wrap" x-sentence></code>
+                </p>
+
+            </div>
+
+        </details>
+
+    </template>
+
+</body>
+
+</html>
+

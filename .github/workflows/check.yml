@@ -21,8 +21,8 @@ jobs:
     strategy:
       matrix:
         deno:
-          - v2.4
-          - v2.5
+          - ~2.4
+          - ^2.5
 
     steps:
 

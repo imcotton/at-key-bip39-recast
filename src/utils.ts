@@ -46,6 +46,16 @@ export function shasum (algo: `SHA-${ '256' | '384' | '512' }`) {
 
 
 
+export function mk_Uint8Array (buf: U8Arr | ArrayBuffer) {
+
+    return ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
+
+}
+
+
+
+
+
 export function encode_hex (data: U8Arr | ArrayBuffer) {
 
     // @ts-ignore polyfill
@@ -118,9 +128,7 @@ export function decode_bin (bin: string) {
 
 export function encode_bin (buf: U8Arr | ArrayBuffer) {
 
-    const it = ArrayBuffer.isView(buf) ? buf : new Uint8Array(buf);
-
-    return join_array_from(it, padding_binary_by_8);
+    return join_array_from(mk_Uint8Array(buf), padding_binary_by_8);
 
 }
 
@@ -144,6 +152,55 @@ export function encode_dec (buf: U8Arr | ArrayBuffer) {
 
 
 
+export function decode_rgba (str: string): U8Arr {
+
+    const res = str.replaceAll(/\s/g, '').matchAll(new RegExp(join([
+        String.raw`rgba?\(`                ,
+        String.raw`(\d{1,3}),`             ,
+        String.raw`(\d{1,3}),`             ,
+        String.raw`(\d{1,3})`              ,
+        String.raw`(?:,(\d+(?:\.\d+)?))?`  ,
+        String.raw`\)`                     ,
+    ]), 'g'));
+
+    const arr = Array
+        .from(res, xs => xs.slice(1, 5).map(Number))
+        .map(    modify(3, n => Number.isFinite(n) ? n : 1))
+        .flatMap(modify(3, n => Math.round(n * 0xFF)))
+    ;
+
+    if (valid_entropy(arr.length)) {
+        return Uint8Array.from(arr);
+    }
+
+    throw new Error(`invalid entropy bytes: ${ arr.length }`);
+
+}
+
+export function encode_rgba (buf: U8Arr | ArrayBuffer): string {
+
+    if (buf.byteLength % 4 !== 0) {
+
+        throw new Error('input bytes length must be a multiple of 4', {
+            cause: buf.byteLength,
+        });
+
+    }
+
+    const base = 10 ** 3;
+
+    return slice_buf_by_rgba(buf)
+        .map(modify(3, n => Math.trunc(n / 0xFF * base) / base))
+        .map(rgba => `rgba(${ rgba.join(', ') })`)
+        .join(', ')
+    ;
+
+}
+
+
+
+
+
 export function padding_bin (bin: string) {
 
     return bin.padStart(Math.ceil(bin.length / 8) * 8, '0');
@@ -157,6 +214,16 @@ export function padding_bin (bin: string) {
 export function padding_hex (hex: string) {
 
     return hex.length % 2 === 0 ? hex : _0(hex);
+
+}
+
+
+
+
+
+export function slice_buf_by_rgba (buf: U8Arr | ArrayBuffer) {
+
+    return Array.from(chunk_buf(4, mk_Uint8Array(buf)), it_to_rgba);
 
 }
 
@@ -206,6 +273,20 @@ export function nmap <A, B> (
 
 
 
+export function modify <T> (i: number, f: (x: T) => T) {
+
+    return function (xs: ReadonlyArray<T>) {
+
+        return nmap(x => xs.with(i, f(x)), xs.at(i)) ?? xs;
+
+    };
+
+}
+
+
+
+
+
 export function to_error (error: unknown, msg = 'unknown') {
 
     return error instanceof Error ? error : new Error(msg);
@@ -223,6 +304,24 @@ export function parse_int (base: number) {
         return Number.parseInt(str, base);
 
     };
+
+}
+
+
+
+
+
+export function it_to_rgba ([ r, g, b, a ]: Iterable<number>) {
+
+    if (   r != null
+        && g != null
+        && b != null
+        && a != null
+    ) {
+        return [ r, g, b, a ] as const;
+    }
+
+    throw new Error('invalid 32-byte Iterable');
 
 }
 
@@ -353,9 +452,24 @@ export function * chunk (n: number, str: string) {
 
 
 
+export function * chunk_buf (n: number, buf: U8Arr) {
+
+    let chunk = buf;
+
+    while (chunk.length > 0) {
+        yield chunk.subarray(0, n);
+        chunk = chunk.subarray(n);
+    }
+
+}
+
+
+
+
+
 type RPR <T extends string, P> = Readonly<Partial<Record<T, P>>>;
 
-export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
+export function encode ({ raw, bin, dec, hex, base58, base64, rgba }: RPR<
 
         | 'raw'
         | 'bin'
@@ -363,6 +477,7 @@ export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
         | 'hex'
         | 'base58'
         | 'base64'
+        | 'rgba'
 
 , boolean>) {
 
@@ -378,17 +493,20 @@ export function encode ({ raw, bin, dec, hex, base58, base64 }: RPR<
 
     if (base64) return encode_base64;
 
+    if (rgba) return encode_rgba;
+
     return encode_hex;
 
 }
 
-export function decode ({ bin, dec, hex, base58, base64 }: RPR<
+export function decode ({ bin, dec, hex, base58, base64, rgba }: RPR<
 
         | 'bin'
         | 'dec'
         | 'hex'
         | 'base58'
         | 'base64'
+        | 'rgba'
 
 , string>) {
 
@@ -401,6 +519,8 @@ export function decode ({ bin, dec, hex, base58, base64 }: RPR<
     if (base58) return decodeBase58(base58);
 
     if (base64) return decode_base64(base64);
+
+    if (rgba) return decode_rgba(rgba);
 
     return void 0;
 

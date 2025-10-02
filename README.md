@@ -18,6 +18,42 @@
 
 
 
+## CLI
+
+### `gen`
+
+    gen [OPTIONS] <INPUTS>
+  
+    OPTIONS:
+      --size           Mnemonic sentence size: 12, 15, 18, 21, 24
+  
+    INPUTS:
+      --bin            Input in binary format [0|1].
+      --dec            Input in decimal format.
+      --hex            Input in hexadecimal format (default).
+      --base58         Input in Base58.
+      --base64         Input in Base64.
+      --rgba           Input [ rgba(), ... ].
+
+
+
+### `extract`
+
+    extract [OPTIONS] <mnemonic sentence>
+
+    OPTIONS:
+      --raw            Output the raw bytes.
+      --bin            Output in binary format.
+      --dec            Output in decimal format.
+      --hex            Output in hexadecimal format (default).
+      --base58         Output in Base58.
+      --base64         Output in Base64.
+      --rgba           Output in [ rgba(), ... ].
+
+
+
+
+
 ## License
 
 the **MIT**

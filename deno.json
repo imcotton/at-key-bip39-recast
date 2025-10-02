@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.esm.sh/gh/denoland/deno@v2.4.5/cli/schemas/config-file.v1.json",
+  "$schema": "https://raw.esm.sh/gh/denoland/deno@v2.5.2/cli/schemas/config-file.v1.json",
   "name": "@key/bip39-recast",
   "version": "0.3.4",
   "description": "bip39 recast",

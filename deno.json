@@ -12,6 +12,17 @@
     "@std/testing":   "jsr:@std/testing@1"
   },
   "tasks": {
+    "build": "deno bundle ./pages/*.html --platform=browser --outdir=./dist",
+    "build-minify": "deno task build --minify",
+    "build-watch": "deno task build --watch",
+    "serve": "deno run -N -R=./dist jsr:@std/http@1/file-server ./dist #recast",
+    "dev": {
+      "dependencies": [ "build-watch", "serve" ]
+    },
+    "pages": {
+      "command": "rsync -a --ignore-existing ./pages/ ./dist/ && ./tools/build.ts",
+      "dependencies": [ "build-minify" ]
+    },
     "spec": "deno test ./spec"
   },
   "exports": {

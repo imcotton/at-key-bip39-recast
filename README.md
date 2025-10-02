@@ -12,6 +12,7 @@
 
 ## Web
 
+- https://bip39-recast.js.org (GitHub Pages)
 - https://bip39-recast.pages.dev (Cloudflare Pages)
 
 

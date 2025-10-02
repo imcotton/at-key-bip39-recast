@@ -10,6 +10,14 @@
 
 
 
+## Web
+
+- https://bip39-recast.pages.dev (Cloudflare Pages)
+
+
+
+
+
 ## License
 
 the **MIT**

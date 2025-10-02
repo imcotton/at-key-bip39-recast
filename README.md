@@ -20,6 +20,27 @@
 
 ## CLI
 
+recommend using **Deno**:
+
+```
+deno      npm:bip39-recast
+deno jsr:@key/bip39-recast
+```
+
+<details>
+
+<summary>also available from: npx, bun, pnpm, yarn etc...</summary>
+
+```
+npx      bip39-recast
+bun    x bip39-recast
+pnpm dlx bip39-recast
+yarn dlx bip39-recast
+```
+</details>
+
+
+
 ### `gen`
 
     gen [OPTIONS] <INPUTS>

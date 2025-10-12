@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.esm.sh/gh/denoland/deno@v2.5.2/cli/schemas/config-file.v1.json",
   "name": "@key/bip39-recast",
-  "version": "0.4.2",
+  "version": "0.5.0-rc.1",
   "description": "bip39 recast",
   "license": "MIT",
   "imports": {

@@ -1,5 +1,7 @@
 import { en } from './words-list/index.ts';
 
+import { normalize, PBKDF2 } from './pbkdf2.ts';
+
 import * as u from './utils.ts';
 
 
@@ -82,6 +84,26 @@ export async function to_mnemonic (
     const index = await chopping(buf);
 
     return Array.from(query(index));
+
+}
+
+
+
+
+
+export async function mnemonic_to_seed (
+
+        sentence: u.Sentence,
+        password = '',
+
+): Promise<u.U8Arr> {
+
+    const passphrase = normalize(sentence.join(' '));
+    const salt = normalize('mnemonic'.concat(password));
+
+    const buf = await PBKDF2({ passphrase, salt });
+
+    return u.mk_Uint8Array(buf);
 
 }
 

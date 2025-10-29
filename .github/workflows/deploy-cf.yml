@@ -33,7 +33,9 @@ jobs:
         run: deno task spec
 
       - name: Build
-        run: deno task pages
+        run: |-
+          deno task pages
+          bash ./tools/wwwroot.sh --size 24 --hex ${{ secrets.WWWROOT_SEED }}
 
       - name: Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

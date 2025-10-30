@@ -30,6 +30,19 @@ export function parse (argv: Iterable<string>) {
 
     }
 
+    if (cmd === 'reveal') {
+
+        const [ path ] = args;
+
+        const info = path
+            ? { path }
+            : { type: 'error' as const, err: new Error('no path') }
+        ;
+
+        return { cmd: 'reveal' as const, info };
+
+    }
+
     return { unknown: cmd };
 
 }

@@ -1,5 +1,6 @@
 import { encodeHex,    decodeHex    } from '@std/encoding/hex';
 import { encodeBase58, decodeBase58 } from '@std/encoding/base58';
+export {               decodeBase58 };
 import { encodeBase64, decodeBase64 } from '@std/encoding/base64';
 
 

@@ -9,6 +9,41 @@ import { parse } from '#src/cli/parse.ts';
 
 
 
+describe('parse [reveal]', function () {
+
+    const cmd = 'reveal' as const;
+
+    it('parses path', function () {
+
+        const path = 'index.html';
+
+        const res = parse([ cmd, path ]);
+        const info = { path };
+
+        ast.assertObjectMatch(res, { cmd, info });
+
+    });
+
+    it('errors on invalid path', function () {
+
+        const res = parse([ cmd ]);
+        const info = { type: 'error' };
+
+        ast.assertObjectMatch(res, { cmd, info });
+        ast.assertInstanceOf(res.info?.err, Error);
+
+        ast.assertStringIncludes(res.info.err.message,
+            'no path',
+        );
+
+    });
+
+});
+
+
+
+
+
 describe('parse [extract]', function () {
 
     const cmd = 'extract' as const;

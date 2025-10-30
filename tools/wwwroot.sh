@@ -143,7 +143,7 @@ EOF
 
 
 
-res=$(deno -R="${DIST}" ./tools/verify.ts "${DIST}/index.html")
+res=$(deno -R="${DIST}" ./src/mod.ts reveal "${DIST}/index.html")
 
 if [ "${res}" != "${mnemonic}" ]; then
     echo "${res}"

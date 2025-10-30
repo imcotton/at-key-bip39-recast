@@ -6,6 +6,7 @@ import * as help from '#src/cli/help.ts';
 import * as u from '#src/utils.ts';
 import { parse } from '#src/cli/parse.ts';
 import { main } from '#src/cli/main.ts';
+import { from_mnemonic, assert_sentence } from '#src/index.ts';
 
 import vectors from '#fixtures/vectors.json' with { type: 'json' };
 
@@ -333,6 +334,106 @@ describe('cli / extract', function () {
             ast.assertEquals(note, help.extract);
 
         });
+
+    });
+
+});
+
+
+
+
+
+describe('cli / reveal', function () {
+
+    const cmd = 'reveal';
+
+    it('reveals every conditions', async function () {
+
+        const mnemonic = `
+
+            void      come      effort   suffer    camp      survey
+            warrior   heavy     shoot    primary   clutch    crush
+            open      amazing   screen   patrol    group     space
+            point     ten       exist    slush     involve   unfold
+
+        `.trim().split(/\W+/);
+
+        assert_sentence(mnemonic);
+
+        const sentence = mnemonic.join(' ');
+        const entropy = await from_mnemonic(mnemonic);
+        const hex = u.encode_hex(entropy);
+
+        const DIST = './tmp/homepage';
+        const index_html = DIST.concat('/', 'index.html');
+
+        const command = new Deno.Command('bash', {
+            env: { DIST },
+            args: [
+                './tools/wwwroot.sh',
+                `--size=${ mnemonic.length }`,
+                `--hex=${ hex }`,
+            ],
+        });
+
+        const { success, code } = await command.output();
+
+        ast.assert(success, `${ code }`);
+
+        const task = (path = index_html) => main({ cmd, info: { path } });
+
+        const verify = (path?: string) => task(path).then(res => {
+            ast.assertStrictEquals(res, sentence);
+        });
+
+        await verify();
+
+        const full = await Deno.readTextFile(index_html);
+
+        const cut = (txt: string) => full.slice(full.indexOf(txt));
+
+        const update = async (txt: string) => {
+            return void await Deno.writeTextFile(index_html, cut(txt));
+        };
+
+        await update(`<link rel="icon"`).then(verify);
+        await update(`<link rel="stylesheet"`).then(verify);
+        await update(`<body`).then(verify);
+
+        const ctrl = new AbortController();
+        const { signal } = ctrl;
+
+        await using server = Deno.serve({ signal, port: 0 }, function (req) {
+
+            if (url === req.url) {
+                return new Response(cut(`<link rel="icon"`));
+            }
+
+            return new Response('404', { status: 404 });
+
+        });
+
+        const url = `http://localhost:${ server.addr.port }/`;
+
+        await verify(url);
+
+        ctrl.abort();
+
+        await Deno.remove(DIST, { recursive: true });
+
+    });
+
+    it('errors without path', async function () {
+
+        const res = await main(parse([ cmd ]));
+
+        ast.assert(typeof res !== 'string'
+            && (res instanceof Uint8Array) === false
+        );
+
+        const { err: { message } } = res;
+
+        ast.assertStringIncludes(message, 'no path');
 
     });
 

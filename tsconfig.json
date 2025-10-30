@@ -17,11 +17,11 @@
     "outDir": "./dist",
 
     "module": "esnext",
-    "target": "es2023",
+    "target": "esnext",
 
     "lib": [
       "DOM",
-      "ES2023",
+      "ESNext",
     ],
 
     "types": [

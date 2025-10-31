@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+
 import * as ast from '@std/assert';
 import { describe, it } from '@std/testing/bdd';
 
@@ -365,7 +367,7 @@ describe('cli / reveal', function () {
         const hex = u.encode_hex(entropy);
 
         const DIST = './tmp/homepage';
-        const index_html = DIST.concat('/', 'index.html');
+        const index_html = resolve(DIST, 'index.html');
 
         const command = new Deno.Command('bash', {
             env: { DIST },

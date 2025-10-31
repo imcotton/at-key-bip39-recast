@@ -23,7 +23,7 @@
       "command": "rsync -a --ignore-existing ./pages/ ./dist/ && ./tools/build.ts",
       "dependencies": [ "build-minify" ]
     },
-    "spec": "deno test ./spec"
+    "spec": "deno test -N --allow-run -W=./tmp -R=./tmp ./spec"
   },
   "exports": {
     ".": "./src/mod.ts"

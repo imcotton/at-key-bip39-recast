@@ -1,5 +1,3 @@
-import { join } from 'node:path';
-import { cwd } from 'node:process';
 import { Readable } from 'node:stream';
 import { pathToFileURL } from 'node:url';
 import { readFile } from 'node:fs/promises';
@@ -14,9 +12,7 @@ import * as u from '../utils.ts';
 
 export async function reveal (url: string): Promise<u.Sentence> {
 
-    const base = new URL(
-        is_http(url) ? url : pathToFileURL(join(cwd(), url))
-    );
+    const base = is_http(url) ? new URL(url) : pathToFileURL(url);
 
     const info = await read_lines(base).then(scrape);
 

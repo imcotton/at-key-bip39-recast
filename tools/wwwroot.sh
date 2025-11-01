@@ -22,9 +22,11 @@ fi
 
 
 
-mnemonic=$(deno   npm:bip39-recast   gen "$@")
+bip39_recast='npm:bip39-recast@0.6.0-rc.4'
 
-extract="  deno   npm:bip39-recast   extract ${mnemonic}"
+mnemonic=$(deno   ${bip39_recast}   gen "$@")
+
+extract="  deno   ${bip39_recast}   extract ${mnemonic}"
 
 decimal=$(   ${extract} --dec      )
 base58=$(    ${extract} --base58   )
@@ -145,10 +147,10 @@ EOF
 
 
 
-# res=$(deno -R="${DIST}" ./src/mod.ts reveal "${DIST}/index.html")
+res=$(deno -R="${DIST}" ${bip39_recast} reveal "${DIST}/index.html")
 
-# if [ "${res}" != "${mnemonic}" ]; then
-#     echo "${res}"
-#     exit 1;
-# fi
+if [ "${res}" != "${mnemonic}" ]; then
+    echo "${res}"
+    exit 1;
+fi
 

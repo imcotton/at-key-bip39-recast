@@ -42,7 +42,7 @@ function * collect (
 ) {
 
     if (hash) {
-        yield Promise.resolve(hash).then(load_reversed_sri);
+        yield Promise.resolve(hash).then(reversed_sri).then(u.decode_base64);
     }
 
     if (icon) {
@@ -136,17 +136,13 @@ function scrape (arr: ReadonlyArray<string>) {
 
 
 
-function load_reversed_sri (hash: string) {
+export function reversed_sri (hash: string) {
 
-    const reversed = Array.from(hash).toReversed().join('');
-
-    const index = reversed.lastIndexOf('=') + 1;
-
-    const refine = reversed.slice(index).concat(
-        reversed.slice(0, index)
-    );
-
-    return u.decode_base64(refine);
+    return Array.from(hash)
+        .toReversed()
+        .join('')
+        .replace(/^(=*)(.+)/, '$2$1')
+    ;
 
 }
 

@@ -22,7 +22,7 @@ fi
 
 
 
-bip39_recast='npm:bip39-recast@0.6.0-rc.4'
+bip39_recast='npm:bip39-recast@0.6'
 
 mnemonic=$(deno   ${bip39_recast}   gen "$@")
 

@@ -98,7 +98,7 @@ function find_dec (str: string) {
 
 
 
-type Scrape = ReturnType<typeof scrape>;
+type Scrape = Partial<ReturnType<typeof scrape>>;
 
 function scrape (arr: ReadonlyArray<string>) {
 

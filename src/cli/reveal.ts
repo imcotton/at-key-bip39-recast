@@ -34,7 +34,7 @@ export async function reveal (url: string): Promise<u.Sentence> {
 
 
 
-function * collect (
+export function * collect (
 
         { hash, icon, css, svg }: Scrape,
         read: ReturnType<typeof loading>,

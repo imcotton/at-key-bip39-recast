@@ -50,7 +50,7 @@ function * collect (
     }
 
     if (css) {
-        yield read(css).then(u.decode_text).then(u.decode_rgba);
+        yield read(css).then(u.decode_text).then(find_rgb).then(u.decode_rgba);
     }
 
     if (svg) {
@@ -78,6 +78,16 @@ function stitch (...xs: ReadonlyArray<string | undefined>) {
         return str.slice(index, str.indexOf('.', index));
 
     });
+
+}
+
+
+
+
+
+function find_rgb (str: string) {
+
+    return str.slice(str.indexOf('rgb'));
 
 }
 

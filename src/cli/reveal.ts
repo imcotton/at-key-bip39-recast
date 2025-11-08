@@ -112,21 +112,29 @@ type Scrape = Partial<ReturnType<typeof scrape>>;
 
 function scrape (arr: ReadonlyArray<string>) {
 
-    const hash = arr.find(str => str.includes(`'unsafe-hashes' 'sha`))
-        ?.match(/sha\d+-(.+)'/)?.at(1)
-    ;
+    const hash = arr.find(
 
-    const icon = arr.find(str => str.includes(`<link rel="icon"`))
-        ?.match(/href="(.+.ico)"/)?.at(1)
-    ;
+        includes(`'unsafe-hashes' 'sha`)
 
-    const css = arr.find(str => str.includes(`<link rel="stylesheet"`))
-        ?.match(/href="(.+.css)"/)?.at(1)
-    ;
+    )?.match(/sha\d+-(.+)'/)?.at(1);
 
-    const svg = arr.find(str => str.includes(`<img src="./logo-`))
-        ?.match(/src="(.+.svg)"/)?.at(1)
-    ;
+    const icon = arr.find(
+
+        includes(`<link rel="icon"`)
+
+    )?.match(/href="(.+.ico)"/)?.at(1);
+
+    const css = arr.find(
+
+        includes(`<link rel="stylesheet"`)
+
+    )?.match(/href="(.+.css)"/)?.at(1);
+
+    const svg = arr.find(
+
+        includes(`<img src="./logo-`)
+
+    )?.match(/src="(.+.svg)"/)?.at(1);
 
     return { hash, icon, css, svg };
 
@@ -168,6 +176,16 @@ async function read_lines (url: URL) {
 function is_http (str: string) {
 
     return /^https?:\/\//.test(str);
+
+}
+
+
+
+
+
+function includes (subset: string) {
+
+    return (str: string) => str.includes(subset);
 
 }
 

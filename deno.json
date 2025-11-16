@@ -26,6 +26,7 @@
     "spec": "deno test -N --allow-run -W=./tmp -R=./tmp ./spec"
   },
   "exports": {
+    "./bin": "./src/cli/bin.ts",
     ".": "./src/mod.ts"
   },
   "compilerOptions": {

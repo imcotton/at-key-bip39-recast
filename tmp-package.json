@@ -11,6 +11,7 @@
     "type": "git"
   },
   "exports": {
+    "./bin": "./dist/cli/bin.js",
     ".": "./dist/index.js"
   },
   "files": [

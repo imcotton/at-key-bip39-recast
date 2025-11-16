@@ -7,8 +7,9 @@ mkdir -p "${DIST}"
 
 if [ $# -eq 0 ]; then
 
-    seed=$(echo 'fib(735) * pi(560) * e(8)' | bc -l \
-        | tr '.' '*' | bc -O 16 \
+    seed=$(bc -l -e 'fib(735) * pi(560) * e(8)' \
+        | tr '.' '*' \
+        | bc -O 16 \
         | xxd -r -p \
         | openssl dgst -sha3-384 \
         | awk '{print $2}'

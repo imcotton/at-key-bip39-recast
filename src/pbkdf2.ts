@@ -1,4 +1,4 @@
-import { webcrypto } from './utils.ts';
+import { webcrypto, encode_text } from './utils.ts';
 
 
 
@@ -16,7 +16,7 @@ export const PBKDF2 = gen_PBKDF2({
 
 export function normalize (str: string) {
 
-    return new TextEncoder().encode(str.normalize('NFKD'));
+    return encode_text(str.normalize('NFKD'));
 
 }
 

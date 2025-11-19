@@ -19,6 +19,22 @@ export type U8Arr = ReturnType<typeof Uint8Array.of>;
 
 
 
+const text_encoder = new TextEncoder();
+
+export function encode_text (
+
+        input: NonNullable<Parameters<typeof text_encoder['encode']>[0]>,
+
+) {
+
+    return text_encoder.encode(input);
+
+}
+
+
+
+
+
 const text_decoder = new TextDecoder();
 
 export function decode_text (

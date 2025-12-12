@@ -32,7 +32,7 @@ jobs:
       - name: Setup
         uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb # v2.0.3
         with:
-          deno-version: v2
+          deno-version: v2.5
 
       - name: Test
         run: deno task spec

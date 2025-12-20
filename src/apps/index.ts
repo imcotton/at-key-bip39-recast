@@ -205,9 +205,11 @@ function compute ({ entropy, rgba, snapshot, flush }: {
 
         ____assert(typeof seed === 'string');
 
+        const upper = format === 'hex' ? seed.toUpperCase() : seed;
+
         const gen = 'deno run npm:bip39-recast gen';
 
-        flush(cli ? `${ gen } --${ format } '${ seed }'` : seed);
+        flush(cli ? `${ gen } --${ format } '${ upper }'` : upper);
 
     };
 

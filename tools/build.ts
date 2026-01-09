@@ -73,7 +73,7 @@ async function main (output = './dist') {
 
                 await Deno.readTextFile(dist_headers)
 
-                    .then(u.alert(`Content-Security-Policy: `,
+                    .then(u.alter(`Content-Security-Policy: `,
 
                         content,
 
@@ -83,7 +83,7 @@ async function main (output = './dist') {
 
                 ;
 
-                return u.alert(`http-equiv="Content-Security-Policy" content="`,
+                return u.alter(`http-equiv="Content-Security-Policy" content="`,
 
                     content,
 

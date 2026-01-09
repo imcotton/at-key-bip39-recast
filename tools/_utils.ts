@@ -52,7 +52,7 @@ export function parse_scripts (
             calculate({ algorithm: '256', size: 8 })
         );
 
-        const version = alert('-', checksum, '.js');
+        const version = alter('-', checksum, '.js');
 
         return ({
             source,
@@ -205,7 +205,7 @@ export function replace (
 
 
 
-export function alert (
+export function alter (
 
         open: string,
         data: string | ((_: string) => string),

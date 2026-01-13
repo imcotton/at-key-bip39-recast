@@ -49,20 +49,6 @@ export async function main ({ cmd, info }: Result) {
 
     }
 
-    if (cmd === 'reveal') {
-
-        const { type, err, path } = info;
-
-        if (type === 'error') {
-            return { err };
-        }
-
-        const { reveal } = await import('./reveal.ts');
-
-        return reveal(path).then(join_by(' '));
-
-    }
-
     throw new Error('invalid type');
 
 }

@@ -14,8 +14,28 @@ import {
     assert_sentence,
     to_error,
     decode_dec,
+    encode_text,
+    decode_text,
 
 } from '#src/utils.ts';
+
+
+
+
+
+describe('decode_text', function () {
+
+    it('decode back to txt', function () {
+
+        const txt = 'hello, world';
+        const buf = encode_text(txt);
+        const res = decode_text(buf);
+
+        ast.assertStrictEquals(res, txt);
+
+    });
+
+});
 
 
 

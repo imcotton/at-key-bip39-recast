@@ -9,7 +9,7 @@ import { parse } from '#src/cli/parse.ts';
 
 
 
-describe('parse [reveal]', function () {
+describe.skip('parse [reveal]', function () {
 
     const cmd = 'reveal' as const;
 

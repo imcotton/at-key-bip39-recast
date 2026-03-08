@@ -19,7 +19,7 @@ permissions:
 jobs:
   deploy-gh:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     environment:
       name: github-pages

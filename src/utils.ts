@@ -96,7 +96,6 @@ export function encode_hex (data: U8Arr | ArrayBuffer) {
 
     if (typeof result === 'string') {
         return result;
-    // deno-coverage-ignore
     }
 
     return encodeHex(data);
@@ -110,7 +109,6 @@ export function decode_hex (data: string) {
 
     if (result instanceof Uint8Array) {
         return result as never;
-    // deno-coverage-ignore
     }
 
     return decodeHex(data);
@@ -128,7 +126,6 @@ export function encode_base64 (data: U8Arr | ArrayBuffer) {
 
     if (typeof result === 'string') {
         return result;
-    // deno-coverage-ignore
     }
 
     return encodeBase64(data);
@@ -142,7 +139,6 @@ export function decode_base64 (data: string) {
 
     if (result instanceof Uint8Array) {
         return result as never;
-    // deno-coverage-ignore
     }
 
     return decodeBase64(data);

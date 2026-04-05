@@ -12,9 +12,11 @@
 
 ## Web
 
-- https://bip39-recast.js.org (GitHub Pages)
-- https://bip39-recast.pgs.sh (pico.sh Pages)
-- https://bip39-recast.pages.dev (Cloudflare Pages)
+|          mirrors | URLs                           |
+|-----------------:|:-------------------------------|
+|     GitHub Pages | https://bip39-recast.js.org    |
+|    pico.sh Pages | https://bip39-recast.pgs.sh    |
+| Cloudflare Pages | https://bip39-recast.pages.dev |
 
 
 

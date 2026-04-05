@@ -1,0 +1,42 @@
+name: Deploy to pico pgs
+
+on:
+  push:
+    branches:
+      - main
+
+
+
+permissions:
+  contents: read
+
+
+
+jobs:
+  deploy-pico-pgs:
+
+    runs-on: ubuntu-slim
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Setup
+        uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb # v2.0.3
+        with:
+          deno-version: v2
+
+      - name: Test
+        run: deno task spec
+
+      - name: Build
+        run: deno task pages
+
+      - name: Deploy to pico pgs
+        uses: picosh/pgs-action@c5df20361f1c69112625315d7f2bf9c3eec95ff1 # v5
+        with:
+          key: ${{ secrets.PICO_PGS_PRIVATE_KEY }}
+          src: ./dist/
+          project: recast
+

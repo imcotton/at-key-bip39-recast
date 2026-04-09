@@ -6,6 +6,7 @@
   "type": "module",
   "sideEffects": false,
   "bin": "./dist/cli/bin.js",
+  "homepage": "https://bip39-recast.js.org",
   "repository": {
     "url": "https://github.com/imcotton/at-key-bip39-recast.git",
     "type": "git"

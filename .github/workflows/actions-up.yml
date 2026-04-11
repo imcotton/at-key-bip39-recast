@@ -1,0 +1,50 @@
+name: Actions Up
+
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      age:
+        description: 'min age in days'
+        required: true
+        default: '30'
+        type: choice
+        options:
+        - '7'
+        - '30'
+        - '60'
+        - '90'
+
+
+
+permissions:
+  contents: read
+
+
+
+jobs:
+
+  actions-up:
+
+    runs-on: ubuntu-slim
+    timeout-minutes: 3
+
+    steps:
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+
+      - run: |-
+
+          npx actions-up -y --min-age ${{ inputs.age }}
+
+          echo '```diff' >> $GITHUB_STEP_SUMMARY
+
+          git diff       >> $GITHUB_STEP_SUMMARY
+
+          echo ' '       >> $GITHUB_STEP_SUMMARY
+          echo '```'     >> $GITHUB_STEP_SUMMARY
+
+

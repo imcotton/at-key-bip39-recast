@@ -60,6 +60,7 @@ jobs:
         tsc:
           - "5.8.3"
           - "5.9.2"
+          - "6.0.3"
 
     steps:
 
@@ -75,19 +76,16 @@ jobs:
         run: cp tmp-package.json package.json
 
       - name: Install
-        run: |-
-
-          npm install --no-{fund,package-lock}
-          npm install --no-{fund,package-lock,save} typescript@${{ matrix.tsc }} esbuild@0.25.9
+        run: npm install --no-{fund,package-lock}
 
       - name: Build
         run: |-
 
           rm -r ./src/apps
-          npx tsc
+          npx --yes --package=typescript@${{ matrix.tsc }} tsc
 
       - name: Bundle
-        run: npx esbuild  ./dist/utils.js
+        run: npx --yes esbuild@0.28.0 ./dist/utils.js
                 --outfile=./dist/utils.js
                 --format=esm
                 --allow-overwrite

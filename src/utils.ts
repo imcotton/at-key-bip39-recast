@@ -410,6 +410,25 @@ export function search_index <T> (arr: ReadonlyArray<T>) {
 
 
 
+export function flat (x: U8Arr, ...xs: readonly U8Arr[]) {
+
+    return xs.reduce((a, b) => {
+
+        const merged = new Uint8Array(a.byteLength + b.byteLength);
+
+        merged.set(a);
+        merged.set(b, a.length);
+
+        return merged;
+
+    }, x);
+
+}
+
+
+
+
+
 function lookup <T> (xs: Iterable<T>) {
 
     const table = new Set(xs);

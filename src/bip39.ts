@@ -42,6 +42,23 @@ export async function from_mnemonic (
 
 ): Promise<u.U8Arr> {
 
+    const [ buf ] = await from_mnemonic_with_checksum(sentence, dict);
+
+    return buf;
+
+}
+
+
+
+
+
+export async function from_mnemonic_with_checksum (
+
+        sentence: u.Sentence,
+        dict = en as ReadonlyArray<string>,
+
+): Promise<[ u.U8Arr, u.U8Arr ]> {
+
     const search = u.search_index(dict);
 
     const split = u.split_at(sentence.length / 3 * 32);
@@ -58,7 +75,7 @@ export async function from_mnemonic (
         const hash = await u.sha256(buf).then(u.encode_bin);
 
         if (hash.startsWith(checksum)) {
-            return buf;
+            return [ buf, u.decode_bin(checksum) ];
         }
 
         throw new Error('invalid checksum', { cause: checksum });

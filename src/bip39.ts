@@ -142,7 +142,7 @@ function checksum_with_chunks_of_bit (
 
         const checksum = new Uint8Array(await hash(origin));
 
-        const buf = flat(
+        const buf = u.flat(
             origin,
             checksum.subarray(0, Math.round(bits / 8)),
         );
@@ -155,25 +155,6 @@ function checksum_with_chunks_of_bit (
         return Array.from(u.chunk(n, binary), u.parse_int(2));
 
     };
-
-}
-
-
-
-
-
-function flat (x: Uint8Array, ...xs: Uint8Array[]) {
-
-    return xs.reduce((a, b) => {
-
-        const merged = new Uint8Array(a.byteLength + b.byteLength);
-
-        merged.set(a);
-        merged.set(b, a.length);
-
-        return merged;
-
-    }, x);
 
 }
 

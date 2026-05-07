@@ -166,6 +166,34 @@ describe('cli', function () {
 
     });
 
+    it('extract to --bin-checksum or --bin-checksum-only', async function () {
+
+        const cmd = 'extract';
+
+        const raw = vectors.english.at(-1)?.at(1);
+        const sentence = raw?.split(' ');
+
+        u.assert_sentence(sentence);
+
+        const run = (opt: string) => main(parse([ cmd, opt, ...sentence ]));
+
+        const [ entropy, full, checksum ] = await Promise.all([
+            run('--bin'),
+            run('--bin-checksum'),
+            run('--bin-checksum-only'),
+        ]);
+
+        ast.assertStrictEquals(checksum, '01101001');
+
+        ast.assert(typeof    full === 'string');
+        ast.assert(typeof entropy === 'string');
+
+        ast.assert(full.startsWith(entropy));
+        ast.assert(full.endsWith(checksum));
+        ast.assertStrictEquals(entropy.concat(checksum), full);
+
+    });
+
 });
 
 

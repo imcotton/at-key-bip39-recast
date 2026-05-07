@@ -139,7 +139,11 @@ function extract (args: Iterable<string>) {
             options: {
 
                 raw: type_boolean,
-                bin: type_boolean,
+
+                'bin': type_boolean,
+                'bin-checksum': type_boolean,
+                'bin-checksum-only': type_boolean,
+
                 dec: type_boolean,
                 hex: type_boolean,
                 base58: type_boolean,
@@ -155,7 +159,12 @@ function extract (args: Iterable<string>) {
 
         });
 
-        const { help, ...format } = values;
+        const { help
+              , 'bin': bin_
+              , 'bin-checksum': bin_with_cs
+              , 'bin-checksum-only': bin_cs_only
+              , ...format
+        } = values;
 
         if (help) {
             return { type: 'help' as const };
@@ -166,9 +175,16 @@ function extract (args: Iterable<string>) {
 
         u.assert_sentence(sentence);
 
-        const show = u.encode(format);
+        const bin = bin_ ?? bin_with_cs ?? bin_cs_only;
 
-        return { type: 'normal' as const, sentence, show };
+        const show = u.encode({ ...format, bin: bin === true });
+
+        return { type: 'normal' as const
+               , sentence
+               , show
+               , bin_with_cs
+               , bin_cs_only
+        };
 
     } catch (cause) {
 

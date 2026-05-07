@@ -1,9 +1,9 @@
 import type { Result } from './parse.ts';
 import * as help from './help.ts';
 
-import { to_mnemonic, from_mnemonic } from '../bip39.ts';
+import { to_mnemonic, from_mnemonic_with_checksum } from '../bip39.ts';
 
-import { join_by } from '../utils.ts';
+import { join_by, flat } from '../utils.ts';
 
 
 
@@ -33,7 +33,7 @@ export async function main ({ cmd, info }: Result) {
 
     if (cmd === 'extract') {
 
-        const { type, err, show, sentence } = info;
+        const { type, err, show, sentence, bin_with_cs, bin_cs_only } = info;
 
         if (type === 'help') {
             return help.extract;
@@ -43,7 +43,15 @@ export async function main ({ cmd, info }: Result) {
             return { err, note: help.extract };
         }
 
-        const entropy = await from_mnemonic(sentence);
+        const [ entropy, cs ] = await from_mnemonic_with_checksum(sentence);
+
+        if (bin_cs_only) {
+            return show(cs);
+        }
+
+        if (bin_with_cs) {
+            return show(flat(entropy, cs));
+        }
 
         return show(entropy);
 

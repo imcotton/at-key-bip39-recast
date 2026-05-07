@@ -36,7 +36,11 @@ Extract out the entropy from a BIP-39 mnemonic sentence.
 
 OPTIONS:
   --raw            Output the raw bytes.
-  --bin            Output in binary format.
+
+  --bin                 Output in binary format.
+  --bin-checksum        Output in binary format with checksum.
+  --bin-checksum-only   Output in binary format of checksum only.
+
   --dec            Output in decimal format.
   --hex            Output in hexadecimal format (default).
   --base58         Output in Base58.

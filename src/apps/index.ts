@@ -7,6 +7,7 @@ import {
 import {
 
     nmap, chunk, join_by, encode_hex, decode_rgba, to_error, encode,
+    encode_bin, sha256,
 
 } from '../utils.ts';
 
@@ -130,6 +131,10 @@ async function create (
 
     await to_mnemonic(entropy).then(join_by(' ')).then(
         updateC('[x-sentence]')
+    );
+
+    await calc_checksum(entropy).then(
+        updateC('[x-checksum]')
     );
 
     const hex = encode_hex(entropy);
@@ -307,6 +312,18 @@ function curry2 <A, B, C> (
 ): (a: A) => (b: B) => C {
 
     return a => b => f(a, b);
+
+}
+
+
+
+
+
+async function calc_checksum (entropy: Uint8Array<ArrayBuffer>) {
+
+    const bits = await sha256(entropy).then(encode_bin);
+
+    return bits.slice(0, entropy.byteLength / 4);
 
 }
 

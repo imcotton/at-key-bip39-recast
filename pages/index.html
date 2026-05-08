@@ -221,6 +221,15 @@
 
             }
 
+            & [x-bin-extra] {
+                display: none;
+            }
+
+            &:has(.pane > select[x-format] > option[value="bin"]:checked)
+            > [x-bin-extra] {
+                display: grid;
+            }
+
         }
 
         [x-source-code] {
@@ -343,6 +352,18 @@
                     ><button class="outline secondary"
                     >&#x1F4CB;</button>
                 </pre>
+
+            </section>
+
+            <section class="pane" x-bin-extra>
+
+                <strong x-g-a>
+                    checksum:
+                </strong>
+
+                <div>
+                    <code x-checksum></code>
+                </div>
 
             </section>
 

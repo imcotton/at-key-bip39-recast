@@ -6,7 +6,7 @@ import {
 
 import {
 
-    nmap, chunk, encode_hex, decode_rgba, to_error, encode,
+    nmap, chunk, join_by, encode_hex, decode_rgba, to_error, encode,
 
 } from '../utils.ts';
 
@@ -118,6 +118,7 @@ async function create (
 
     const query = query_selector(item);
     const update = text_content(item);
+    const updateC = curry2(update);
 
     const select_format = query('select[name="format"]');
 
@@ -127,11 +128,9 @@ async function create (
 
     ____assert(checkbox_cli instanceof HTMLInputElement);
 
-    await to_mnemonic(entropy).then(sentence => {
-
-        update('[x-sentence]', sentence.join(' '));
-
-    });
+    await to_mnemonic(entropy).then(join_by(' ')).then(
+        updateC('[x-sentence]')
+    );
 
     const hex = encode_hex(entropy);
 
@@ -164,9 +163,7 @@ async function create (
                 format: select_format.value,
             }),
 
-            flush (seed) {
-                update('[x-seed]', seed);
-            },
+            flush: updateC('[x-seed]'),
 
         });
 
@@ -296,6 +293,20 @@ function rand (n: number) {
 function odd (arr: ArrayLike<number>) {
 
     return 1 === Array.from(arr).reduce((a, b) => a ^ b) % 2;
+
+}
+
+
+
+
+
+function curry2 <A, B, C> (
+
+        f: (a: A, b: B) => C,
+
+): (a: A) => (b: B) => C {
+
+    return a => b => f(a, b);
 
 }
 

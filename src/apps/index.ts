@@ -6,8 +6,9 @@ import {
 
 import {
 
-    nmap, chunk, join_by, encode_hex, decode_rgba, to_error, encode,
-    encode_bin, sha256,
+    nmap, chunk, join_by, sha256, to_error,
+    encode, encode_bin, encode_hex,
+    decode_rgba,
 
 } from '../utils.ts';
 

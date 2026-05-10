@@ -62,9 +62,9 @@ yarn dlx bip39-recast
 
 
 
-### `extract`
+### `extract` (alias: `ext`)
 
-    extract [OPTIONS] <mnemonic sentence>
+    extract|ext [OPTIONS] <mnemonic sentence>
 
     OPTIONS:
       --raw            Output the raw bytes.

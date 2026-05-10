@@ -48,6 +48,14 @@ describe('parse [extract]', function () {
 
     const cmd = 'extract' as const;
 
+    it('takes ext alias as extract', function () {
+
+        const res = parse([ 'ext', '-h' ]);
+
+        ast.assertObjectMatch(res, { cmd, info: { type: 'help' } });
+
+    });
+
     it('errors on invalid entropy bytes', function () {
 
         const res = parse([ cmd, '--wat' ]);

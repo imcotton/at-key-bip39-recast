@@ -3,7 +3,7 @@ Available commands:
 
     gen [--size] <INPUTS>
 
-    extract [OPTIONS] <mnemonic sentence>
+    extract|ext [OPTIONS] <mnemonic sentence>
 `;
 
 
@@ -30,7 +30,7 @@ INPUTS:
 
 
 export const extract: string = `
-Usage: extract [OPTIONS] <mnemonic sentence>
+Usage: extract|ext [OPTIONS] <mnemonic sentence>
 
 Extract out the entropy from a BIP-39 mnemonic sentence.
 

@@ -92,6 +92,14 @@ describe('parse [gen]', function () {
 
     }
 
+    it('takes generate alias of gen', function () {
+
+        const res = parse([ 'generate', '-h' ]);
+
+        ast.assertObjectMatch(res, { cmd, info: { type: 'help' } });
+
+    });
+
     it('ignores extra positionals', function () {
 
         const type = 'normal';

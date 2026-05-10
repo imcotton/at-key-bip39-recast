@@ -1,7 +1,7 @@
 export const summary: string = `
 Available commands:
 
-    gen [--size] <INPUTS>
+    generate|gen [--size] <INPUTS>
 
     extract|ext [OPTIONS] <mnemonic sentence>
 `;
@@ -11,7 +11,7 @@ Available commands:
 
 
 export const gen: string = `
-Usage: gen [OPTIONS] <INPUTS>
+Usage: generate|gen [OPTIONS] <INPUTS>
 
 OPTIONS:
   --size           Mnemonic sentence size: 12, 15, 18, 21, 24

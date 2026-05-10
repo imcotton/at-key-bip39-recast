@@ -45,9 +45,9 @@ yarn dlx bip39-recast
 
 
 
-### `gen`
+### `generate` (alias: `gen`)
 
-    gen [OPTIONS] <INPUTS>
+    generate|gen [OPTIONS] <INPUTS>
   
     OPTIONS:
       --size           Mnemonic sentence size: 12, 15, 18, 21, 24

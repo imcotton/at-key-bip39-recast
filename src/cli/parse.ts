@@ -18,7 +18,7 @@ export function parse (argv: Iterable<string>) {
 
     }
 
-    if (cmd === 'gen') {
+    if (cmd === 'generate' || cmd === 'gen') {
 
         return { cmd: 'gen' as const, info: gen(args) };
 

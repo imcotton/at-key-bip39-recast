@@ -24,7 +24,7 @@ export function parse (argv: Iterable<string>) {
 
     }
 
-    if (cmd === 'extract') {
+    if (cmd === 'extract' || cmd === 'ext') {
 
         return { cmd: 'extract' as const, info: extract(args) };
 

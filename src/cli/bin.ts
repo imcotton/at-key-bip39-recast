@@ -9,10 +9,26 @@ import { parse } from './parse.ts';
 
 
 
-main(parse(argv.slice(2))).then(function (result) {
+const { qr, ...args } = parse(argv.slice(2));
+
+main(args).then(async function (result) {
 
     if (typeof result === 'string') {
+
+        if (qr) {
+
+            const { encodeQR } = await import('qr');
+
+            return console.log(encodeQR(result, qr, {
+                ecc: 'low',
+                scale: 1,
+                border: 1,
+            }));
+
+        }
+
         return console.log(result);
+
     }
 
     if (result instanceof Uint8Array) {

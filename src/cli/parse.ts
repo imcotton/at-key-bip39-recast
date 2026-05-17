@@ -6,7 +6,10 @@ import * as u from '../utils.ts';
 
 
 
-export type Result = ReturnType<typeof parse>;
+type UnionOmit <T, K extends string | number | symbol>
+= T extends unknown ? Omit<T, K> : never;
+
+export type Result = UnionOmit<ReturnType<typeof parse>, 'qr'>;
 
 export function parse (argv: Iterable<string>) {
 
@@ -18,19 +21,49 @@ export function parse (argv: Iterable<string>) {
 
     }
 
+    const [ qr, rest ] = scrape_qr(args);
+
     if (cmd === 'generate' || cmd === 'gen') {
 
-        return { cmd: 'gen' as const, info: gen(args) };
+        return { cmd: 'gen' as const, qr, info: gen(rest) };
 
     }
 
     if (cmd === 'extract' || cmd === 'ext') {
 
-        return { cmd: 'extract' as const, info: extract(args) };
+        return { cmd: 'extract' as const, qr, info: extract(rest) };
 
     }
 
     return { unknown: cmd };
+
+}
+
+
+
+
+
+function partial <T> (arr: ReadonlyArray<T>, a: T): [ boolean, typeof arr ] {
+
+    return arr.includes(a)
+        ? [  true, arr.filter(b => b !== a) ]
+        : [ false, arr ]
+    ;
+
+}
+
+
+
+
+
+function scrape_qr (s1: ReadonlyArray<string>) {
+
+    const [ qr      , s2 ] = partial(s1, '--qr');
+    const [ qr_large, s3 ] = partial(s2, '--qr-large');
+
+    const res = qr_large ? 'term' : qr ? 'ascii' : void 0;
+
+    return [ res, s3 ] as const;
 
 }
 

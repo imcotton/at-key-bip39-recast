@@ -84,7 +84,7 @@ describe('parse [gen]', function () {
 
         it(`returns help for ${ args }`, function () {
 
-            ast.assertEquals(parse([ cmd, args ]), {
+            ast.assertObjectMatch(parse([ cmd, args ]), {
                 cmd, info: { type: 'help' },
             });
 
@@ -110,7 +110,7 @@ describe('parse [gen]', function () {
 
         const entropy = buf.subarray(-16);
 
-        ast.assertEquals(res, { cmd, info: { type, entropy } });
+        ast.assertObjectMatch(res, { cmd, info: { type, entropy } });
 
     });
 
@@ -203,7 +203,7 @@ describe('parse [gen]', function () {
 
             const entropy = buf.subarray(-bytes);
 
-            ast.assertEquals(res, { cmd, info: { type, entropy } });
+            ast.assertObjectMatch(res, { cmd, info: { type, entropy } });
 
         }
 

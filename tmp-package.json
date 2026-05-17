@@ -20,6 +20,9 @@
     "./dist/**/*.json",
     "./dist/**/*.js"
   ],
+  "dependencies": {
+    "qr": "0.6.0"
+  },
   "devDependencies": {
     "@std/encoding": "npm:@jsr/std__encoding@1",
     "@tsconfig/node20": "^20.1.6",

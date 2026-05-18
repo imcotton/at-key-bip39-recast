@@ -128,6 +128,25 @@ export async function mnemonic_to_seed (
 
 
 
+export function refine_sentence (
+
+        source: Iterable<string> | ArrayLike<string>,
+        dict: ReadonlyArray<string>,
+
+): u.Sentence {
+
+    const refine = Array.from(source, expand_word_from(dict));
+
+    u.assert_sentence(refine);
+
+    return refine;
+
+}
+
+
+
+
+
 const chopping = checksum_with_chunks_of_bit(11, bytes => {
 
     const bits = bytes * 8 / 32;

@@ -11,6 +11,7 @@ import {
     decode_bin,
     decode_hex,
     search_value,
+    search_index,
     assert_sentence,
     to_error,
     decode_dec,
@@ -177,6 +178,23 @@ describe('decode_bin', function () {
         });
 
     }
+
+});
+
+
+
+
+
+describe('search_index', function () {
+
+    it('throws on invalid word', function () {
+
+        const query = search_index([ 'foo' ]);
+        const res = query([ 'bar' ]);
+
+        ast.assertThrows(() => Array.from(res), Error, 'invalid word');
+
+    });
 
 });
 

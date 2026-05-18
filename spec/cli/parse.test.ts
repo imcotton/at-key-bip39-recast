@@ -234,6 +234,18 @@ describe('parse', function () {
 
     }
 
+    it('recognizes gen --qr', function () {
+
+        ast.assertObjectMatch(parse([ 'gen', '--qr' ]), { qr: 'ascii' });
+
+    });
+
+    it('recognizes ext --qr-large', function () {
+
+        ast.assertObjectMatch(parse([ 'ext', '--qr-large' ]), { qr: 'term' });
+
+    });
+
     it('returns unknown cmd', function () {
 
         ast.assertObjectMatch(parse([ 'wat' ]), { unknown: 'wat' });

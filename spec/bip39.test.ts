@@ -77,6 +77,43 @@ describe('from_mnemonic', function () {
 
     });
 
+    it('throws on invalid element', async function () {
+
+        const sentence = Array.from({ length: 12 }, () => 'lol');
+
+        await ast.assertRejects(
+            () => from_mnemonic(sentence),
+            Error,
+            'invalid element',
+        );
+
+    });
+
+    it('accepts shorten but still valid words', async function () {
+
+        const normal = `
+
+            cat     swing   flag     economy   stadium   alone
+            churn   speed   unique   patch     report    train
+
+        `.trim().split(/\W+/);
+
+        const cut = `
+
+            cat     swin    flag     economy   stad      alon
+            churn   speed   uniq     patc      report    train
+
+        `.trim().split(/\W+/);
+
+        await Promise.all([
+
+            from_mnemonic(normal),
+            from_mnemonic(cut),
+
+        ]).then(([ a, b ]) => ast.assertEquals(a, b));
+
+    });
+
 });
 
 

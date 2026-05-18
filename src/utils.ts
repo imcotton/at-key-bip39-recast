@@ -429,7 +429,7 @@ export function flat (x: U8Arr, ...xs: readonly U8Arr[]): U8Arr {
 
 
 
-function lookup <T> (xs: Iterable<T>) {
+export function lookup <T> (xs: Iterable<T>) {
 
     const table = new Set(xs);
 

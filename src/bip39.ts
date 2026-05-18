@@ -61,10 +61,12 @@ export async function from_mnemonic_with_checksum (
 
     const search = u.search_index(dict);
 
-    const split = u.split_at(sentence.length / 3 * 32);
+    const refined = sentence.map(expand_word_from(dict));
+
+    const split = u.split_at(refined.length / 3 * 32);
 
     const [ binary, checksum ] = split(u.join_array_from(
-        search(sentence),
+        search(refined),
         u.padding_binary_by_11,
     ));
 
@@ -170,6 +172,47 @@ function checksum_with_chunks_of_bit (
         ));
 
         return Array.from(u.chunk(n, binary), u.parse_int(2));
+
+    };
+
+}
+
+
+
+
+
+function starts_with (prefix: string) {
+
+    return (str: string) => str.startsWith(prefix);
+
+}
+
+
+
+
+
+function expand_word_from (dict: ReadonlyArray<string>) {
+
+    const has = u.lookup(dict);
+
+    return function (word: string) {
+
+        if (has(word)) {
+            return word;
+        }
+
+        const starts_with_word = starts_with(word);
+
+        const head = dict.find(starts_with_word);
+        const last = dict.findLast(starts_with_word);
+
+        if (head === last) {
+            if (head != null) {
+                return head;
+            }
+        }
+
+        throw new Error('invalid element', { cause: { word, head, last } });
 
     };
 

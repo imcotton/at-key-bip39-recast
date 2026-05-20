@@ -1,6 +1,6 @@
 import {
 
-    to_mnemonic, from_mnemonic, assert_sentence,
+    to_mnemonic, from_mnemonic,
 
 } from '../index.ts';
 
@@ -62,8 +62,6 @@ byId('output', output => {
         if (sentence != null) {
 
             try {
-
-                assert_sentence(sentence);
 
                 const entropy = await from_mnemonic(sentence);
 

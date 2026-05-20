@@ -50,39 +50,59 @@ export async function from_mnemonic (
 
 
 
-export async function from_mnemonic_with_checksum (
+export const from_mnemonic_with_checksum: (
 
         sentence: Iterable<string> | ArrayLike<string>,
-        dict = en as ReadonlyArray<string>,
+        dict?: ReadonlyArray<string>,
 
-): Promise<[ u.U8Arr, u.U8Arr ]> {
+) => Promise<[ u.U8Arr, u.U8Arr ]> = gen_from_mnemonic_with_checksum();
 
-    const rectified = refine_sentence(sentence, dict);
 
-    const search = u.search_index(dict);
 
-    const split = u.split_at(rectified.length / 3 * 32);
 
-    const [ binary, checksum ] = split(u.join_array_from(
-        search(rectified),
-        u.padding_binary_by_11,
-    ));
 
-    const buf = u.decode_bin(binary);
+// DI for better coverage
+export function gen_from_mnemonic_with_checksum ({
 
-    if (u.valid_entropy(buf.byteLength)) {
+        valid_entropy = u.valid_entropy,
 
-        const hash = await u.sha256(buf).then(u.encode_bin);
+} = {}) {
 
-        if (hash.startsWith(checksum)) {
-            return [ buf, u.decode_bin(checksum) ];
+    return async function (
+
+            sentence: Iterable<string> | ArrayLike<string>,
+            dict = en as ReadonlyArray<string>,
+
+    ): Promise<[ u.U8Arr, u.U8Arr ]> {
+
+        const rectified = refine_sentence(sentence, dict);
+
+        const search = u.search_index(dict);
+
+        const split = u.split_at(rectified.length / 3 * 32);
+
+        const [ binary, checksum ] = split(u.join_array_from(
+            search(rectified),
+            u.padding_binary_by_11,
+        ));
+
+        const buf = u.decode_bin(binary);
+
+        if (valid_entropy(buf.byteLength)) {
+
+            const hash = await u.sha256(buf).then(u.encode_bin);
+
+            if (hash.startsWith(checksum)) {
+                return [ buf, u.decode_bin(checksum) ];
+            }
+
+            throw new Error('invalid checksum', { cause: checksum });
+
         }
 
-        throw new Error('invalid checksum', { cause: checksum });
+        throw new Error('invalid entropy size', { cause: buf.byteLength });
 
-    }
-
-    throw new Error('invalid entropy size', { cause: buf.byteLength });
+    };
 
 }
 

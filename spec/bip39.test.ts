@@ -8,6 +8,7 @@ import {
     verify_mnemonic,
     mnemonic_to_seed,
     refine_sentence,
+    gen_from_mnemonic_with_checksum,
 
 } from '#src/bip39.ts';
 
@@ -115,6 +116,32 @@ describe('from_mnemonic', function () {
             from_mnemonic(cut),
 
         ]).then(([ a, b ]) => ast.assertEquals(a, b));
+
+    });
+
+});
+
+
+
+
+
+describe('gen_from_mnemonic_with_checksum', function () {
+
+    it('throws on invalid entropy size', async function () {
+
+        const fn = gen_from_mnemonic_with_checksum({
+
+            valid_entropy: () => false,
+
+        });
+
+        const sentence = Array.from({ length: 12 }, () => 'zoo');
+
+        await ast.assertRejects(
+            () => fn(sentence),
+            Error,
+            'invalid entropy size',
+        );
 
     });
 

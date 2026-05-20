@@ -175,3 +175,44 @@ function checksum_with_chunks_of_bit (
 
 }
 
+
+
+
+
+function starts_with (prefix: string) {
+
+    return (str: string) => str.startsWith(prefix);
+
+}
+
+
+
+
+
+function expand_word_from (dict: ReadonlyArray<string>) {
+
+    const has = u.lookup(dict);
+
+    return function (word: string) {
+
+        if (has(word)) {
+            return word;
+        }
+
+        const starts_with_word = starts_with(word);
+
+        const head = dict.find(starts_with_word);
+        const last = dict.findLast(starts_with_word);
+
+        if (head === last) {
+            if (head != null) {
+                return head;
+            }
+        }
+
+        throw new Error('invalid element', { cause: { word, head, last } });
+
+    };
+
+}
+

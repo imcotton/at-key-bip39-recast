@@ -17,8 +17,6 @@ export async function verify_mnemonic (
 
     try {
 
-        u.assert_sentence(sentence);
-
         await from_mnemonic(sentence, dict);
 
         return true;

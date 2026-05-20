@@ -7,6 +7,7 @@ import {
     from_mnemonic,
     verify_mnemonic,
     mnemonic_to_seed,
+    refine_sentence,
 
 } from '#src/bip39.ts';
 
@@ -26,9 +27,11 @@ describe('mnemonic_to_seed', function () {
 
         for (const [ phrase, hex ] of sample) {
 
-            const sentence = phrase?.split(' ');
+            const raw = phrase?.split(' ');
 
-            u.assert_sentence(sentence);
+            ast.assert(raw);
+
+            const sentence = refine_sentence(raw);
 
             const res = await mnemonic_to_seed(sentence, 'TREZOR');
 
@@ -72,7 +75,6 @@ describe('from_mnemonic', function () {
 
     it('rejects on invalid sentence', async function () {
 
-        // @ts-expect-error for test mock
         await ast.assertRejects(() => from_mnemonic([ 'abandon' ]));
 
     });

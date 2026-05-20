@@ -173,8 +173,6 @@ function extract (args: Iterable<string>) {
         const sentence: ReadonlyArray<string>
         = positionals.flatMap(str => str.split(/\W+/));
 
-        u.assert_sentence(sentence);
-
         const bin = bin_ ?? bin_with_cs ?? bin_cs_only;
 
         const show = u.encode({ ...format, bin: bin === true });

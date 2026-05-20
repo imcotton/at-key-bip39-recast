@@ -10,7 +10,7 @@ import * as u from './utils.ts';
 
 export async function verify_mnemonic (
 
-        sentence: ReadonlyArray<string>,
+        sentence: Iterable<string> | ArrayLike<string>,
         dict = en as ReadonlyArray<string>,
 
 ): Promise<boolean> {
@@ -37,7 +37,7 @@ export async function verify_mnemonic (
 
 export async function from_mnemonic (
 
-        sentence: u.Sentence,
+        sentence: Iterable<string> | ArrayLike<string>,
         dict = en as ReadonlyArray<string>,
 
 ): Promise<u.U8Arr> {
@@ -54,17 +54,19 @@ export async function from_mnemonic (
 
 export async function from_mnemonic_with_checksum (
 
-        sentence: u.Sentence,
+        sentence: Iterable<string> | ArrayLike<string>,
         dict = en as ReadonlyArray<string>,
 
 ): Promise<[ u.U8Arr, u.U8Arr ]> {
 
+    const rectified = refine_sentence(sentence, dict);
+
     const search = u.search_index(dict);
 
-    const split = u.split_at(sentence.length / 3 * 32);
+    const split = u.split_at(rectified.length / 3 * 32);
 
     const [ binary, checksum ] = split(u.join_array_from(
-        search(sentence),
+        search(rectified),
         u.padding_binary_by_11,
     ));
 
@@ -95,12 +97,12 @@ export async function to_mnemonic (
         buf: u.U8Arr,
         dict = en as ReadonlyArray<string>,
 
-): Promise<ReadonlyArray<string>> {
+): Promise<u.Sentence> {
 
     const query = u.search_value(dict);
     const index = await chopping(buf);
 
-    return Array.from(query(index));
+    return refine_sentence(query(index), dict);
 
 }
 

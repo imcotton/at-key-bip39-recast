@@ -8,7 +8,7 @@ import * as help from '#src/cli/help.ts';
 import * as u from '#src/utils.ts';
 import { parse } from '#src/cli/parse.ts';
 import { main } from '#src/cli/main.ts';
-import { from_mnemonic, assert_sentence } from '#src/index.ts';
+import { from_mnemonic } from '#src/index.ts';
 
 import vectors from '#fixtures/vectors.json' with { type: 'json' };
 
@@ -131,7 +131,7 @@ describe('cli', function () {
         const raw = vectors.english.at(-1)?.at(1);
         const sentence = raw?.split(' ');
 
-        u.assert_sentence(sentence);
+        ast.assert(sentence);
 
         const extract = await main(parse([
             'extract', '--rgba', ...sentence,
@@ -173,7 +173,7 @@ describe('cli', function () {
         const raw = vectors.english.at(-1)?.at(1);
         const sentence = raw?.split(' ');
 
-        u.assert_sentence(sentence);
+        ast.assert(sentence);
 
         const run = (opt: string) => main(parse([ cmd, opt, ...sentence ]));
 
@@ -387,8 +387,6 @@ describe.skip('cli / reveal', function () {
             point     ten       exist    slush     involve   unfold
 
         `.trim().split(/\W+/);
-
-        assert_sentence(mnemonic);
 
         const sentence = mnemonic.join(' ');
         const entropy = await from_mnemonic(mnemonic);

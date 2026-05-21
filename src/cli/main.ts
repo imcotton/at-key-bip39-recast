@@ -1,9 +1,9 @@
 import type { Result } from './parse.ts';
 import * as help from './help.ts';
 
-import { to_mnemonic, from_mnemonic_with_checksum } from '../bip39.ts';
+import * as bip39 from '../bip39.ts';
 
-import { join_by, flat } from '../utils.ts';
+import * as u from '../utils.ts';
 
 
 
@@ -27,7 +27,7 @@ export async function main ({ cmd, info }: Result) {
             return { err, note: help.gen };
         }
 
-        return to_mnemonic(entropy).then(join_by(' '));
+        return bip39.to_mnemonic(entropy).then(u.join_space);
 
     }
 
@@ -43,17 +43,17 @@ export async function main ({ cmd, info }: Result) {
             return { err, note: help.extract };
         }
 
-        const [ entropy, cs ] = await from_mnemonic_with_checksum(sentence);
+        const [ buf, cs ] = await bip39.from_mnemonic_with_checksum(sentence);
 
         if (bin_cs_only) {
             return show(cs);
         }
 
         if (bin_with_cs) {
-            return show(flat(entropy, cs));
+            return show(u.flat(buf, cs));
         }
 
-        return show(entropy);
+        return show(buf);
 
     }
 

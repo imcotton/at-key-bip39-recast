@@ -51,7 +51,7 @@ export function decode_text (
 
 
 
-function id <T> (a: T) {
+export function id <T> (a: T) {
 
     return a;
 

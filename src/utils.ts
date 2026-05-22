@@ -618,14 +618,15 @@ export function split_at (at: number) {
 
 
 
-export function join_array_from <A> (
+export function join_array_from <A, B> (
 
         it: Iterable<A>,
-        fn: (a: A) => string,
+        fn: (a: A) => B,
+        concat = join<B>,
 
 ) {
 
-    return join(Array.from(it, fn));
+    return concat(Array.from(it, fn));
 
 }
 

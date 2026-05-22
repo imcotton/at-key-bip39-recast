@@ -586,6 +586,8 @@ export const padding_binary_by_8 = num_to_padding(2, 8);
 
 export const padding_binary_by_11 = num_to_padding(2, 11);
 
+export const padding_decimal_by_4 = num_to_padding(10, 4);
+
 function num_to_padding (base: number, n: number, s = '0') {
 
     const show = radix(base);

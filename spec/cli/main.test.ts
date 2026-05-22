@@ -371,6 +371,60 @@ describe('cli / extract', function () {
 
     });
 
+    describe('indices', function () {
+
+        const mnemonic = `
+
+            vacuum     bridge   buddy    supreme   exclude   milk
+            consider   tail     expand   wasp      pattern   nuclear
+
+        `.trim().split(/\W+/);
+
+        const indices = [
+
+            1924,    222,   235,   1743,    631,   1124,
+             378,   1770,   641,   1980,   1290,   1210,
+
+        ];
+
+        type Opts = `--indices${ '' | '-join' }`;
+
+        const cli = (opt: Opts, phrases: string[]) => main(
+            parse([ cmd, opt, ...phrases ])
+        );
+
+        it('joins by space', async function () {
+
+            const res = await cli('--indices', mnemonic);
+
+            ast.assertStrictEquals(res, indices.join(' '));
+
+        });
+
+        it('joins to stream with padding', async function () {
+
+            const res = await cli('--indices-join', mnemonic);
+
+            ast.assertStrictEquals(res,
+                indices.map(u.padding_decimal_by_4).join('')
+            );
+
+        });
+
+        it('throws on valid words but invalid checksum', async function () {
+
+            const zoos = Array.from({ length: 12 }, () => 'zoo');
+
+            await ast.assertRejects(
+                () => cli('--indices', zoos),
+                Error,
+                'invalid checksum',
+            );
+
+        });
+
+    });
+
     describe('misc.', function () {
 
         it('errors on --wat', async function () {

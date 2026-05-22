@@ -635,6 +635,8 @@ export function join_array_from <A> (
 
 export const join = join_by('');
 
+export const join_space = join_by(' ');
+
 export function join_by (by: string) {
 
     return function (arr: ReadonlyArray<string>) {

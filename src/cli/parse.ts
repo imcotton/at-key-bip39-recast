@@ -154,6 +154,9 @@ function extract (args: Iterable<string>) {
                 base64: type_boolean,
                 rgba: type_boolean,
 
+                'indices': type_boolean,
+                'indices-join': type_boolean,
+
                 help: {
                     short: 'h',
                     type: 'boolean',
@@ -167,6 +170,8 @@ function extract (args: Iterable<string>) {
               , 'bin': bin_
               , 'bin-checksum': bin_with_cs
               , 'bin-checksum-only': bin_cs_only
+              , 'indices': indices
+              , 'indices-join': indices_join
               , ...format
         } = values;
 
@@ -186,6 +191,8 @@ function extract (args: Iterable<string>) {
                , show
                , bin_with_cs
                , bin_cs_only
+               , indices
+               , indices_join
         };
 
     } catch (cause) {

@@ -43,17 +43,27 @@ export async function main ({ cmd, info }: Result) {
             return { err, note: help.extract };
         }
 
-        const [ buf, cs ] = await bip39.from_mnemonic_with_checksum(sentence);
+        const { entropy, checksum, indices }
+        = await bip39.all_from_mnemonic(sentence);
+
+        if (info.indices ?? info.indices_join) {
+
+            return info.indices_join
+                ? u.join_array_from(indices, u.padding_decimal_by_4)
+                : u.join_array_from(indices, u.id, u.join_space)
+            ;
+
+        }
 
         if (bin_cs_only) {
-            return show(cs);
+            return show(checksum);
         }
 
         if (bin_with_cs) {
-            return show(u.flat(buf, cs));
+            return show(u.flat(entropy, checksum));
         }
 
-        return show(buf);
+        return show(entropy);
 
     }
 

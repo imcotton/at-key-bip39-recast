@@ -639,11 +639,7 @@ export const join_space = join_by(' ');
 
 export function join_by (by: string) {
 
-    return function (arr: ReadonlyArray<string>) {
-
-        return arr.join(by);
-
-    };
+    return <T> (arr: ReadonlyArray<T>) => arr.join(by);
 
 }
 

@@ -40,9 +40,9 @@ export async function from_mnemonic (
 
 ): Promise<u.U8Arr> {
 
-    const [ buf ] = await from_mnemonic_with_checksum(sentence, dict);
+    const { entropy } = await all_from_mnemonic(sentence, dict);
 
-    return buf;
+    return entropy;
 
 }
 
@@ -50,16 +50,24 @@ export async function from_mnemonic (
 
 
 
-export const from_mnemonic_with_checksum: (
+export async function from_mnemonic_with_checksum (
 
         sentence: Iterable<string> | ArrayLike<string>,
         dict?: ReadonlyArray<string>,
 
-) => Promise<[ u.U8Arr, u.U8Arr ]> = gen_from_mnemonic_with_checksum();
+): Promise<[ u.U8Arr, u.U8Arr ]> {
+
+    const { entropy, checksum } = await all_from_mnemonic(sentence, dict);
+
+    return [ entropy, checksum ];
+
+}
 
 
 
 
+
+export const all_from_mnemonic = gen_from_mnemonic_with_checksum();
 
 // DI for better coverage
 export function gen_from_mnemonic_with_checksum ({
@@ -73,34 +81,37 @@ export function gen_from_mnemonic_with_checksum ({
             sentence: Iterable<string> | ArrayLike<string>,
             dict = en as ReadonlyArray<string>,
 
-    ): Promise<[ u.U8Arr, u.U8Arr ]> {
+    ) {
 
         const rectified = refine_sentence(sentence, dict);
-
         const search = u.search_index(dict);
-
+        const indices = Array.from(search(rectified));
         const split = u.split_at(rectified.length / 3 * 32);
 
-        const [ binary, checksum ] = split(u.join_array_from(
-            search(rectified),
+        const [ bin, cs ] = split(u.join_array_from(
+            indices,
             u.padding_binary_by_11,
         ));
 
-        const buf = u.decode_bin(binary);
+        const entropy = u.decode_bin(bin);
 
-        if (valid_entropy(buf.byteLength)) {
+        if (valid_entropy(entropy.byteLength)) {
 
-            const hash = await u.sha256(buf).then(u.encode_bin);
+            const hash = await u.sha256(entropy).then(u.encode_bin);
 
-            if (hash.startsWith(checksum)) {
-                return [ buf, u.decode_bin(checksum) ];
+            if (hash.startsWith(cs)) {
+
+                const checksum = u.decode_bin(cs);
+
+                return { indices, entropy, checksum };
+
             }
 
-            throw new Error('invalid checksum', { cause: checksum });
+            throw new Error('invalid checksum', { cause: cs });
 
         }
 
-        throw new Error('invalid entropy size', { cause: buf.byteLength });
+        throw new Error('invalid entropy size', { cause: entropy.byteLength });
 
     };
 

@@ -9,7 +9,7 @@ import {
     verify_mnemonic,
     mnemonic_to_seed,
     refine_sentence,
-    gen_from_mnemonic_with_checksum,
+    gen_all_from_mnemonic,
 
 } from '#src/bip39.ts';
 
@@ -158,11 +158,11 @@ describe('from_mnemonic_with_checksum', function () {
 
 
 
-describe('gen_from_mnemonic_with_checksum', function () {
+describe('gen_all_from_mnemonic', function () {
 
     it('throws on invalid entropy size', async function () {
 
-        const fn = gen_from_mnemonic_with_checksum({
+        const fn = gen_all_from_mnemonic({
 
             valid_entropy: () => false,
 

@@ -67,10 +67,10 @@ export async function from_mnemonic_with_checksum (
 
 
 
-export const all_from_mnemonic = gen_from_mnemonic_with_checksum();
+export const all_from_mnemonic = gen_all_from_mnemonic();
 
 // DI for better coverage
-export function gen_from_mnemonic_with_checksum ({
+export function gen_all_from_mnemonic ({
 
         valid_entropy = u.valid_entropy,
 

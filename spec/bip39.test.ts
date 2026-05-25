@@ -5,6 +5,7 @@ import {
 
     to_mnemonic,
     from_mnemonic,
+    from_mnemonic_with_checksum,
     verify_mnemonic,
     mnemonic_to_seed,
     refine_sentence,
@@ -13,6 +14,8 @@ import {
 } from '#src/bip39.ts';
 
 import * as u from '#src/utils.ts';
+
+import { en } from '#src/words-list/index.ts';
 
 import vectors from '#fixtures/vectors.json' with { type: 'json' };
 
@@ -114,6 +117,38 @@ describe('from_mnemonic', function () {
             from_mnemonic(cut),
 
         ]).then(([ a, b ]) => ast.assertEquals(a, b));
+
+    });
+
+});
+
+
+
+
+
+describe('from_mnemonic_with_checksum', function () {
+
+    it('produces checksum bits same as end of last word', async function () {
+
+        await Promise.all(vectors.english.map(async function (item) {
+
+            const sentence = item.at(1)?.split(' ');
+            const last = sentence?.at(-1);
+
+            ast.assert(sentence && last);
+
+            const bits = en.indexOf(last).toString(2);
+
+            const res = await from_mnemonic_with_checksum(sentence);
+
+            const [ num ] = res[1];
+            const checksum = num?.toString(2);
+
+            ast.assert(checksum);
+
+            ast.assert(bits.endsWith(checksum));
+
+        }));
 
     });
 

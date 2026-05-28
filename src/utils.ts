@@ -566,13 +566,13 @@ export function decode ({ bin, dec, hex, base58, base64, rgba }: RPR<
 
     if (dec) return decode_dec(dec);
 
-    if (hex) return decode_hex(hex);
-
     if (base58) return decodeBase58(base58);
 
     if (base64) return decode_base64(base64);
 
     if (rgba) return decode_rgba(rgba);
+
+    if (hex) return decode_hex(hex);
 
     return void 0;
 

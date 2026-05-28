@@ -44,7 +44,7 @@ function gen (args: Iterable<string>) {
 
     try {
 
-        const { values, positionals: [ hex ] } = parseArgs({
+        const { values, positionals } = parseArgs({
 
             args: Array.from(args),
 
@@ -70,13 +70,17 @@ function gen (args: Iterable<string>) {
 
         });
 
-        const { help, size: _size, ...rest } = values;
+        const { help, size: _size, rgba: _rgba, ..._rest } = values;
 
         if (help) {
             return { type: 'help' as const };
         }
 
-        let entropy = u.decode(hex ? { hex, ...rest } : rest);
+        const [ hex ] = positionals;
+
+        const rgba = _rgba && [ _rgba, ...positionals ].join(' ');
+
+        let entropy = u.decode({ hex, rgba, ..._rest });
 
         const size = u.nmap(u.parse_int(10), _size);
 

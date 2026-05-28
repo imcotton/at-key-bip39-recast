@@ -560,7 +560,7 @@ export function decode ({ bin, dec, hex, base58, base64, rgba }: RPR<
         | 'base64'
         | 'rgba'
 
-, string>) {
+, string | undefined | null>) {
 
     if (bin) return decode_bin(bin);
 

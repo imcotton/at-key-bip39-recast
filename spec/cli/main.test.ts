@@ -251,6 +251,29 @@ describe('cli / gen', function () {
 
     describe('misc.', function () {
 
+        it('could reads --rgba args without quotes', async function () {
+
+            const raw = vectors.english.at(-1)?.at(1);
+            const sentence = raw?.split(' ');
+
+            ast.assert(sentence);
+
+            const extract = await main(parse([
+                'extract', '--rgba', ...sentence,
+            ]));
+
+            ast.assert(typeof extract === 'string');
+
+            const args = extract.split('), ').map(s => s.concat('),'));
+
+            const res = await main(parse([
+                'gen', '--rgba', ...args,
+            ]));
+
+            ast.assertStrictEquals(res, raw);
+
+        });
+
         it('reads --size and returns sentence in same', async function () {
 
             const res = await main(parse([ cmd, '--size', '21' ]));

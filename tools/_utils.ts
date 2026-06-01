@@ -1,6 +1,6 @@
 import * as v from 'jsr:@valibot/valibot@1';
 
-import { main as shasum, type Algorithm } from 'jsr:@imcotton/sri@0.9/main';
+import { main as shasum } from 'jsr:@imcotton/sri@0.13/main';
 
 
 
@@ -82,7 +82,7 @@ export function tail (target: string) {
 export function calculate ({ size, algorithm }: {
 
         size: number,
-        algorithm: Algorithm,
+        algorithm: string,
 
 }) {
 
@@ -125,7 +125,7 @@ export async function load_and_verify ({ url, checksum, algorithm }: {
 
         url: string,
         checksum: string,
-        algorithm: Algorithm,
+        algorithm: string,
 
 }) {
 

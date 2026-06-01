@@ -1,4 +1,4 @@
-import { main as shasum } from 'jsr:@imcotton/sri@0.9/main';
+import { main as shasum } from 'jsr:@imcotton/sri@0.13/main';
 
 import { mark } from './_utils.ts';
 

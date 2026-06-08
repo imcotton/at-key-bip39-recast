@@ -51,7 +51,7 @@ export function decode_text (
 
 
 
-function id <T> (a: T) {
+export function id <T> (a: T) {
 
     return a;
 
@@ -586,6 +586,8 @@ export const padding_binary_by_8 = num_to_padding(2, 8);
 
 export const padding_binary_by_11 = num_to_padding(2, 11);
 
+export const padding_decimal_by_4 = num_to_padding(10, 4);
+
 function num_to_padding (base: number, n: number, s = '0') {
 
     const show = radix(base);
@@ -616,14 +618,15 @@ export function split_at (at: number) {
 
 
 
-export function join_array_from <A> (
+export function join_array_from <A, B> (
 
         it: Iterable<A>,
-        fn: (a: A) => string,
+        fn: (a: A) => B,
+        concat = join<B>,
 
 ) {
 
-    return join(Array.from(it, fn));
+    return concat(Array.from(it, fn));
 
 }
 
@@ -633,13 +636,11 @@ export function join_array_from <A> (
 
 export const join = join_by('');
 
+export const join_space = join_by(' ');
+
 export function join_by (by: string) {
 
-    return function (arr: ReadonlyArray<string>) {
-
-        return arr.join(by);
-
-    };
+    return <T> (arr: ReadonlyArray<T>) => arr.join(by);
 
 }
 
